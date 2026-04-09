@@ -1,0 +1,6 @@
+@QuickBasket.API_HostAddress = http://localhost:5187
+
+GET {{QuickBasket.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
