@@ -11,9 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Middlewares\IRepositories\" />
-    <Folder Include="Middlewares\IServices\" />
-    <Folder Include="Filters\" />
+    <ProjectReference Include="..\QuickBasket.Application\QuickBasket.Application.csproj" />
+    <ProjectReference Include="..\QuickBasket.Shared\QuickBasket.Shared.csproj" />
   </ItemGroup>
 
 </Project>

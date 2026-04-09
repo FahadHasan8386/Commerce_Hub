@@ -7,10 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Products\" />
-    <Folder Include="Interefaces\IRepository\" />
-    <Folder Include="Interefaces\IService\" />
-    <Folder Include="Mappings\" />
+    <Folder Include="Features\Products\Validators\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="14.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\QuickBasket.Domain\QuickBasket.Domain.csproj" />
+    <ProjectReference Include="..\QuickBasket.Shared\QuickBasket.Shared.csproj" />
   </ItemGroup>
 
 </Project>

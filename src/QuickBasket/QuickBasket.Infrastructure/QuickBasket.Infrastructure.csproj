@@ -7,8 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Services\" />
-    <Folder Include="Repositories\" />
+    <ProjectReference Include="..\QuickBasket.Application\QuickBasket.Application.csproj" />
+    <ProjectReference Include="..\QuickBasket.Domain\QuickBasket.Domain.csproj" />
+    <ProjectReference Include="..\QuickBasket.Shared\QuickBasket.Shared.csproj" />
   </ItemGroup>
 
 </Project>
