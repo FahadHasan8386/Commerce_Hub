@@ -11,10 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
-    <Folder Include="Interfaces\" />
-    <Folder Include="Services\" />
-    <Folder Include="Repository\" />
+    <Folder Include="Middlewares\IRepositories\" />
+    <Folder Include="Middlewares\IServices\" />
+    <Folder Include="Filters\" />
   </ItemGroup>
 
 </Project>

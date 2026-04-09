@@ -1,3 +1,7 @@
 <Solution>
   <Project Path="QuickBasket.API/QuickBasket.API.csproj" />
+  <Project Path="QuickBasket.Application/QuickBasket.Application.csproj" Id="deecde34-0567-4c41-a812-fae9c70227a4" />
+  <Project Path="QuickBasket.Domain/QuickBasket.Domain.csproj" Id="9ec52ca9-bffc-4f97-a646-3c571ee31201" />
+  <Project Path="QuickBasket.Infrastructure/QuickBasket.Infrastructure.csproj" Id="765253dd-a159-4c8e-876a-d225c3d85948" />
+  <Project Path="QuickBasket.Shared/QuickBasket.Shared.csproj" Id="556a2286-b6f2-475b-acd9-22b371eee44c" />
 </Solution>
