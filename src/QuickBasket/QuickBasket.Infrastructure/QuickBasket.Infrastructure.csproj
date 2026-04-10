@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.1.72" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\QuickBasket.Application\QuickBasket.Application.csproj" />
     <ProjectReference Include="..\QuickBasket.Domain\QuickBasket.Domain.csproj" />
     <ProjectReference Include="..\QuickBasket.Shared\QuickBasket.Shared.csproj" />

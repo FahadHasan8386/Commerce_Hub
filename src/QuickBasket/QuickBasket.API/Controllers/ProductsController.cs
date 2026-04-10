@@ -1,12 +1,24 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using QuickBasket.Application.Features.Products.Queries;
 
 namespace QuickBasket.API.Controllers
 {
-    public class ProductsController : Controller
+    [ApiController]
+    [Route("api/[controller]")]
+    public class ProductsController : ControllerBase
     {
-        public IActionResult Index()
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetProduct(int id)
         {
-            return View();
+            var query = new GetProductByIdQuery(id);
+            var result = await Mediator.Send(query);
+
+            if(!result.IsSuccess)
+            {
+                return StatusCode(result.StatusCode , result.Message);
+            }
+            return Ok(result);
         }
     }
 }

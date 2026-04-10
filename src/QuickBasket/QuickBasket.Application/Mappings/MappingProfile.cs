@@ -1,10 +1,19 @@
-﻿using System;
+﻿using AutoMapper;
+using QuickBasket.API.Models.Entities;
+using QuickBasket.Application.Features.Products.Commands;
+using QuickBasket.Application.Features.Products.DTOs;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace QuickBasket.Application.Mappings
 {
-    internal class MappingProfile
+    public class MappingProfile : Profile 
     {
+        public MappingProfile() 
+        {
+            CreateMap<Product, ProductDto>();
+            CreateMap<CreateProductCommand, Product>();
+        }
     }
 }
