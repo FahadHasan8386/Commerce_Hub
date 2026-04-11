@@ -1,37 +1,44 @@
-﻿using AutoMapper;
+﻿using Dapper;
 using MediatR;
 using QuickBasket.Application.Features.Products.DTOs;
 using QuickBasket.Application.Features.Products.Queries;
-using QuickBasket.Application.Interefaces.IRepository;
+using QuickBasket.Application.Interfaces;
 using QuickBasket.Shared.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace QuickBasket.Application.Features.Products.Handlers
 {
-    public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery , Result <ProductDto>>
+    public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, Result<ProductDto>>
     {
-        private readonly IProductRepository _productRepository;
-        private readonly IMapper _mapper;
+        private readonly IDapperContext _context;
 
-
-        public GetProductByIdQueryHandler(IProductRepository productRepository, IMapper mapper)
+        public GetProductByIdQueryHandler(IDapperContext context)
         {
-            _productRepository = productRepository;
-            _mapper = mapper;
+            _context = context;
         }
-        public async Task<Result<ProductDto>> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
+
+        public async Task<Result<ProductDto>> Handle(GetProductByIdQuery request,CancellationToken cancellationToken)
         {
-            var product = await _productRepository.GetByIdAsync(request.Id);
+            var sql = @"
+                SELECT 
+                    Id,
+                    Name,
+                    Price
+                FROM Products
+                WHERE Id = @Id";
+
+            using var connection = _context.CreateConnection();
+
+            var product = await connection.QueryFirstOrDefaultAsync<ProductDto>(
+                sql,
+                new { Id = request.Id }
+            );
 
             if (product == null)
             {
-                throw new NotFoundException(nameof(product), request.Id);
+                return Result<ProductDto>.Failure($"Product with Id {request.Id} not found");
             }
-            var productDto = _mapper.Map<ProductDto>(product);
 
-            return Result<ProductDto>.Success(productDto);
+            return Result<ProductDto>.Success(product);
         }
     }
 }

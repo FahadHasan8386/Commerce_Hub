@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\QuickBasket.Application\QuickBasket.Application.csproj" />
+    <ProjectReference Include="..\QuickBasket.Infrastructure\QuickBasket.Infrastructure.csproj" />
     <ProjectReference Include="..\QuickBasket.Shared\QuickBasket.Shared.csproj" />
   </ItemGroup>
 

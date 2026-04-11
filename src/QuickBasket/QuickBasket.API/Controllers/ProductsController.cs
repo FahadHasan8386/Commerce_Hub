@@ -9,15 +9,18 @@ namespace QuickBasket.API.Controllers
     [Route("api/[controller]")]
     public class ProductsController : ControllerBase
     {
+        private readonly IMediator _mediator;
+        public ProductsController(IMediator mediator) => _mediator = mediator;
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProduct(int id)
         {
             var query = new GetProductByIdQuery(id);
-            var result = await Mediator.Send(query);
+            var result = await _mediator.Send(query);
 
             if(!result.IsSuccess)
             {
-                return StatusCode(result.StatusCode , result.Message);
+                return StatusCode(result.StatusCode , result.ErrorMessage);
             }
             return Ok(result);
         }
@@ -25,7 +28,7 @@ namespace QuickBasket.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateProduct([FromBody] CreateProductCommand command)
         {
-            var result = await Mediator.Send(command);
+            var result = await _mediator.Send(command);
 
             if(!result.IsSuccess)
             {
