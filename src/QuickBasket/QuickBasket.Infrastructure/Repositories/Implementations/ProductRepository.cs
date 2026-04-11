@@ -5,15 +5,16 @@ using System.Collections.Generic;
 using Dapper;
 using System.Text;
 using QuickBasket.Application.Interefaces.IRepository;
+using QuickBasket.Application.Interfaces;
 
 namespace QuickBasket.Infrastructure.Repositories.Implementations
 {
     public class ProductRepository : IProductRepository
     {
-        private readonly DapperContext _context;
+        private readonly IDapperContext _context;
 
 
-        public ProductRepository(DapperContext context)
+        public ProductRepository(IDapperContext context)
         {
             _context = context;
         }

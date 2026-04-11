@@ -7,6 +7,6 @@ namespace QuickBasket.Application.Interfaces
 {
     public interface IDapperContext
     {
-        IDbConnection CreateConnection();       
+        public  IDbConnection CreateConnection();       
     }
 }
