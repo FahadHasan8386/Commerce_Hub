@@ -26,7 +26,7 @@ namespace QuickBasket.Infrastructure.Repositories.Implementations
             using var connection = _context.CreateConnection();
             return await connection.QueryFirstOrDefaultAsync<Product>(sql, new {Id =  id}) ;
         }
-        public async Task<int> CreateAsync(Product product)
+        public async Task<int> CreateProductAsync(Product product)
         {
             const string sql = @"
             INSERT INTO Products (Name, Description, Price, StockQuantity, Sku, CategoryId, CreatedAt)
@@ -38,5 +38,21 @@ namespace QuickBasket.Infrastructure.Repositories.Implementations
             return id;
         }
 
+        public async Task<int> UpdateProductAsync(Product product)
+        {
+            const string sql = @"UPDATE Products SET 
+                                    Name = @Name,
+                                    Description = @Description,
+                                    Price = @Price,
+                                    StockQuantity = @StockQuantity,
+                                    Sku = @Sku,
+                                    CategoryId = @CategoryId,
+                                    UpdatedAt = @UpdatedAt
+                                WHERE Id = @Id;";
+
+            using var connection = _context.CreateConnection();
+            var rowsAffected = await connection.ExecuteAsync(sql, product);
+            return rowsAffected; 
+        }
     }
 }

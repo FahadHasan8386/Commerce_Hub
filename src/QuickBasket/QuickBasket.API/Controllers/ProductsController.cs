@@ -36,5 +36,21 @@ namespace QuickBasket.API.Controllers
             }
             return CreatedAtAction(nameof(GetProduct), new { id = result.Data }, result.Data);
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateProduct(int id, [FromBody] UpdateProductCommand command)
+        {
+            if (id != command.Id)
+                return BadRequest("Id mismatch");
+
+            var result = await _mediator.Send(command);
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(result.StatusCode, result.ErrorMessage);
+            }
+
+            return Ok(result.Data); 
+        }
     }
 }

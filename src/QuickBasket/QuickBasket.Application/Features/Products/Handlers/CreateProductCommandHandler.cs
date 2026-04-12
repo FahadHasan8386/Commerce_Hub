@@ -28,7 +28,7 @@ namespace QuickBasket.Application.Features.Products.Handlers
                 CreatedAt = DateTime.UtcNow
             };
 
-            var productId = await _productRepository.CreateAsync(product);
+            var productId = await _productRepository.CreateProductAsync(product);
             return Result<int>.Success(productId, 201);
         }
     }

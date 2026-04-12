@@ -8,6 +8,7 @@ namespace QuickBasket.Application.Interefaces.IRepository
     public interface IProductRepository
     {
         Task<Product?> GetByIdAsync(int id);
-        Task<int> CreateAsync(Product product);
+        Task<int> CreateProductAsync(Product product);
+        Task<int> UpdateProductAsync(Product product);
     }
 }
