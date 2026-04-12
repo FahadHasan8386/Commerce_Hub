@@ -10,5 +10,6 @@ namespace QuickBasket.Application.Interefaces.IRepository
         Task<Product?> GetByIdAsync(int id);
         Task<int> CreateProductAsync(Product product);
         Task<int> UpdateProductAsync(Product product);
+        Task<bool> DeleteProductAsync(int id);
     }
 }

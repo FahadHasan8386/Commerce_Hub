@@ -54,5 +54,16 @@ namespace QuickBasket.Infrastructure.Repositories.Implementations
             var rowsAffected = await connection.ExecuteAsync(sql, product);
             return rowsAffected; 
         }
+
+        public async Task<bool> DeleteProductAsync(int id)
+        {
+            const string sql = @"DELETE FROM Products WHERE Id = @Id";
+
+            using var connection = _context.CreateConnection();
+
+            var rowsAffected = await connection.ExecuteAsync(sql, new { Id = id });
+
+            return rowsAffected > 0;
+        }
     }
 }

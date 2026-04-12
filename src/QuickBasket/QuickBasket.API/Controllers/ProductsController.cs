@@ -52,5 +52,18 @@ namespace QuickBasket.API.Controllers
 
             return Ok(result.Data); 
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            var command = new DeleteProductCommand(id);
+            var result = _mediator.Send(command);
+
+            if(!result.IsSuccess)
+            {
+                return StatusCode(result.StatusCode, result.ErrorMessage);
+            }
+            return NoContent();
+        }
     }
 }
