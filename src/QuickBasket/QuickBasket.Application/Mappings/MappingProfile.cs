@@ -14,7 +14,6 @@ namespace QuickBasket.Application.Mappings
         {
             CreateMap<Product, ProductDto>();
             CreateMap<CreateProductCommand, Product>();
-            CreateMap<UpdateProductCommand, Product>();
         }
     }
 }
