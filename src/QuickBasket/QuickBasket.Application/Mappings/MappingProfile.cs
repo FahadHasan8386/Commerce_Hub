@@ -12,8 +12,9 @@ namespace QuickBasket.Application.Mappings
     {
         public MappingProfile() 
         {
-            CreateMap<Product, ProductDto>();
-            CreateMap<CreateProductCommand, Product>();
+            CreateMap<CreateProductDto, Product>();
+            CreateMap<UpdateProductDto, Product>();
+            CreateMap<Product , ProductResponseDto>();
         }
     }
 }

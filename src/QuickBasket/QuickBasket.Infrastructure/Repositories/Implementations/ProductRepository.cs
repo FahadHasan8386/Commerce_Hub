@@ -6,6 +6,7 @@ using Dapper;
 using System.Text;
 using QuickBasket.Application.Interefaces.IRepository;
 using QuickBasket.Application.Interfaces;
+using QuickBasket.Application.Features.Products.DTOs;
 
 namespace QuickBasket.Infrastructure.Repositories.Implementations
 {
@@ -26,7 +27,7 @@ namespace QuickBasket.Infrastructure.Repositories.Implementations
             using var connection = _context.CreateConnection();
             return await connection.QueryFirstOrDefaultAsync<Product>(sql, new {Id =  id}) ;
         }
-        public async Task<int> CreateProductAsync(Product product)
+        public async Task<int> CreateProductAsync(CreateProductDto product)
         {
             const string sql = @"
             INSERT INTO Products (Name, Description, Price, StockQuantity, Sku, CategoryId, CreatedAt)
@@ -38,7 +39,7 @@ namespace QuickBasket.Infrastructure.Repositories.Implementations
             return id;
         }
 
-        public async Task<int> UpdateProductAsync(Product product)
+        public async Task<int> UpdateProductAsync(UpdateProductDto product)
         {
             const string sql = @"UPDATE Products SET 
                                     Name = @Name,

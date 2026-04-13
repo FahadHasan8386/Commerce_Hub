@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using QuickBasket.API.Models.Entities;
 using QuickBasket.Application.Features.Products.Commands;
+using QuickBasket.Application.Features.Products.DTOs;
 using QuickBasket.Application.Interefaces.IRepository;
 using QuickBasket.Shared.Helpers;
 
@@ -17,7 +18,7 @@ namespace QuickBasket.Application.Features.Products.Handlers
 
         public async Task<Result<int>> Handle(CreateProductCommand request , CancellationToken cancellationToken)
         {
-            var product = new Product
+            var product = new CreateProductDto
             {
                 Name = request.Name,
                 Description = request.Description,
