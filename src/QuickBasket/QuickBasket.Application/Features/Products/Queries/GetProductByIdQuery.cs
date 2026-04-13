@@ -7,7 +7,7 @@ using System.Text;
 
 namespace QuickBasket.Application.Features.Products.Queries
 {
-    public class GetProductByIdQuery : IRequest<Result<ProductDto>>
+    public class GetProductByIdQuery : IRequest<Result<ProductResponseDto>>
     {
         public int Id { get; set; }
 

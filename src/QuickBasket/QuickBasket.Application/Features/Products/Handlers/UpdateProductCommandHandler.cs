@@ -32,7 +32,7 @@ namespace QuickBasket.Application.Features.Products.Handlers
             };
 
             var productId = await _productRepository.UpdateProductAsync(product);
-            return Result<int>.Success(productId, 201);
+            return Result<int>.Success(productId, 200);
 
         }
     }

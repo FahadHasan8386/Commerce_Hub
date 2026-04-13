@@ -8,7 +8,8 @@ namespace QuickBasket.Application.Interefaces.IRepository
 {
     public interface IProductRepository
     {
-        Task<Product?> GetByIdAsync(int id);
+        Task<List<ProductResponseDto>> GetAllAsync();
+        Task<ProductResponseDto?> GetByIdAsync(int id);
         Task<int> CreateProductAsync(CreateProductDto product);
         Task<int> UpdateProductAsync(UpdateProductDto product);
         Task<bool> DeleteProductAsync(int id);

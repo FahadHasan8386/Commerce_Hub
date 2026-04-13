@@ -20,22 +20,39 @@ namespace QuickBasket.Infrastructure.Repositories.Implementations
             _context = context;
         }
 
-        public async Task<Product?> GetByIdAsync(int id)
+        public async Task<List<ProductResponseDto>> GetAllAsync()
         {
-            const string sql = "SELECT * FROM Products WHERE Id = @Id";
+            const string sql = "SELECT * FROM Products";
 
             using var connection = _context.CreateConnection();
-            return await connection.QueryFirstOrDefaultAsync<Product>(sql, new {Id =  id}) ;
+            return (await connection.QueryAsync<ProductResponseDto>(sql)).ToList();
         }
+
+        public async Task<ProductResponseDto> GetByIdAsync(int id)
+        {
+            const string sql = @"SELECT 
+                            Id,
+                            Name,
+                            Description,
+                            Price,
+                            StockQuantity,
+                            Sku,
+                            CategoryId
+                          FROM Products
+                          WHERE Id = @Id";
+
+            using var connection = _context.CreateConnection();
+            return await connection.QueryFirstOrDefaultAsync<ProductResponseDto>(sql, new { Id = id });
+        }
+
         public async Task<int> CreateProductAsync(CreateProductDto product)
         {
-            const string sql = @"
-            INSERT INTO Products (Name, Description, Price, StockQuantity, Sku, CategoryId, CreatedAt)
-            VALUES (@Name, @Description, @Price, @StockQuantity, @Sku, @CategoryId, @CreatedAt);
-            SELECT CAST(SCOPE_IDENTITY() as int)";
+            const string sql = @"INSERT INTO Products (Name, Description, Price, StockQuantity, Sku, CategoryId, CreatedAt)
+                                VALUES (@Name, @Description, @Price, @StockQuantity, @Sku, @CategoryId, @CreatedAt);
+                                SELECT CAST(SCOPE_IDENTITY() as int)";
 
             using var connection = _context.CreateConnection();
-            var id = await connection.QuerySingleAsync<int>(sql, product);
+            var id = await connection.ExecuteAsync(sql, product);
             return id;
         }
 
@@ -47,8 +64,7 @@ namespace QuickBasket.Infrastructure.Repositories.Implementations
                                     Price = @Price,
                                     StockQuantity = @StockQuantity,
                                     Sku = @Sku,
-                                    CategoryId = @CategoryId,
-                                    UpdatedAt = @UpdatedAt
+                                    CategoryId = @CategoryId
                                 WHERE Id = @Id;";
 
             using var connection = _context.CreateConnection();
@@ -66,5 +82,7 @@ namespace QuickBasket.Infrastructure.Repositories.Implementations
 
             return rowsAffected > 0;
         }
+
+      
     }
 }

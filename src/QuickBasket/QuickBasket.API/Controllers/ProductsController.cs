@@ -12,8 +12,22 @@ namespace QuickBasket.API.Controllers
         private readonly IMediator _mediator;
         public ProductsController(IMediator mediator) => _mediator = mediator;
 
+        [HttpGet]
+        public async Task<IActionResult> GetAllProducts()
+        {
+            var query = new GetAllProductsQuery();
+            var result = await _mediator.Send(query);
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(result.StatusCode, result.ErrorMessage);
+            }
+
+            return Ok(result.Data);
+        }
+
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetProduct(int id)
+        public async Task<IActionResult> GetProductById(int id)
         {
             var query = new GetProductByIdQuery(id);
             var result = await _mediator.Send(query);
@@ -22,7 +36,7 @@ namespace QuickBasket.API.Controllers
             {
                 return StatusCode(result.StatusCode , result.ErrorMessage);
             }
-            return Ok(result);
+            return Ok(result.Data);
         }
 
         [HttpPost]
@@ -34,14 +48,13 @@ namespace QuickBasket.API.Controllers
             {
                 return StatusCode(result.StatusCode, result.ErrorMessage);
             }
-            return CreatedAtAction(nameof(GetProduct), new { id = result.Data }, result.Data);
+            return Ok(result.Data);
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProduct(int id, [FromBody] UpdateProductCommand command)
         {
-            if (id != command.Id)
-                return BadRequest("Id mismatch");
+            command.Id = id;
 
             var result = await _mediator.Send(command);
 

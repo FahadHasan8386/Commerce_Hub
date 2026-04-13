@@ -6,7 +6,7 @@ using QuickBasket.Shared.Helpers;
 
 namespace QuickBasket.Application.Features.Products.Handlers
 {
-    public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, Result<ProductDto>>
+    public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, Result<ProductResponseDto>>
     {
         private readonly IProductRepository _repository;
 
@@ -15,22 +15,25 @@ namespace QuickBasket.Application.Features.Products.Handlers
             _repository = repository;
         }
 
-        public async Task<Result<ProductDto>> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<ProductResponseDto>> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
         {
             var productEntity = await _repository.GetByIdAsync(request.Id);
 
             if (productEntity == null)
             {
-                return Result<ProductDto>.Failure($"Product with Id {request.Id} not found");
+                return Result<ProductResponseDto>.Failure($"Product with Id {request.Id} not found");
             }
-            var dto = new ProductDto
+            var dto = new ProductResponseDto
             {
                 Id = productEntity.Id,
                 Name = productEntity.Name,
-                Price = productEntity.Price
+                Description = productEntity.Description,
+                Price = productEntity.Price,
+                StockQuantity = productEntity.StockQuantity,
+                Sku = productEntity.Sku,
+                CategoryId = productEntity.CategoryId
             };
-
-            return Result<ProductDto>.Success(dto);
+            return Result<ProductResponseDto>.Success(dto);
         }
     }
 }
