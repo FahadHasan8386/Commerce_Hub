@@ -1,6 +1,14 @@
-﻿namespace QuickBasket.API.Models.Entities
+﻿using QuickBasket.Domain.BaseModel;
+
+namespace QuickBasket.API.Models.Entities
 {
-    public class OrderItems
+    public class OrderItem : BaseEntity
     {
+        public int id { get; set; }
+        public int OrderId { get; set; }    
+        public int ProductId { get; set; }
+        public int Quantity { get; set; }
+        public decimal UnitPrice { get; set; }
+
     }
 }
