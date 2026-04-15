@@ -4,7 +4,9 @@ using System.Text;
 
 namespace QuickBasket.Application.Features.Categories.DTOs
 {
-    internal class CreateCategoryDto
+    public class CreateCategoryDto
     {
+        public string Name { get; set; }
+        public string Description { get; set; }
     }
 }

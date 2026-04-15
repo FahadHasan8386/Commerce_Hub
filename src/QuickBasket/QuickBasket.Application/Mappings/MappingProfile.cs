@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using QuickBasket.API.Models.Entities;
+using QuickBasket.Application.Features.Categories.DTOs;
 using QuickBasket.Application.Features.Products.Commands;
 using QuickBasket.Application.Features.Products.DTOs;
 using System;
@@ -15,6 +16,7 @@ namespace QuickBasket.Application.Mappings
             CreateMap<CreateProductDto, Product>();
             CreateMap<UpdateProductDto, Product>();
             CreateMap<Product , ProductResponseDto>();
+            CreateMap<CreateCategoryDto, Category>();
         }
     }
 }

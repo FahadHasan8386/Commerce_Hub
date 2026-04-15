@@ -4,7 +4,10 @@ using System.Text;
 
 namespace QuickBasket.Application.Features.Categories.DTOs
 {
-    internal class UpdateCategoryDto
+    public class UpdateCategoryDto
     {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
     }
 }
