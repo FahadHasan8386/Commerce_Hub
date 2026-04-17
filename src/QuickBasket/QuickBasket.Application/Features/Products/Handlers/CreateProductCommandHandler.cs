@@ -24,7 +24,6 @@ namespace QuickBasket.Application.Features.Products.Handlers
                 Description = request.Description,
                 Price = request.Price,
                 StockQuantity = request.StockQuantity,
-                Sku = request.Sku,
                 CategoryId = request.CategoryId,
                 CreatedAt = DateTime.UtcNow
             };

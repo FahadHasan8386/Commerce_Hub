@@ -36,7 +36,6 @@ namespace QuickBasket.Infrastructure.Repositories.Implementations
                             Description,
                             Price,
                             StockQuantity,
-                            Sku,
                             CategoryId
                           FROM Products
                           WHERE Id = @Id";
@@ -47,8 +46,8 @@ namespace QuickBasket.Infrastructure.Repositories.Implementations
 
         public async Task<int> CreateProductAsync(CreateProductDto product)
         {
-            const string sql = @"INSERT INTO Products (Name, Description, Price, StockQuantity, Sku, CategoryId, CreatedAt)
-                                VALUES (@Name, @Description, @Price, @StockQuantity, @Sku, @CategoryId, @CreatedAt);
+            const string sql = @"INSERT INTO Products (Name, Description, Price, StockQuantity, CategoryId, CreatedAt)
+                                VALUES (@Name, @Description, @Price, @StockQuantity, @CategoryId, @CreatedAt);
                                 SELECT CAST(SCOPE_IDENTITY() as int)";
 
             using var connection = _context.CreateConnection();
@@ -63,7 +62,6 @@ namespace QuickBasket.Infrastructure.Repositories.Implementations
                                     Description = @Description,
                                     Price = @Price,
                                     StockQuantity = @StockQuantity,
-                                    Sku = @Sku,
                                     CategoryId = @CategoryId
                                 WHERE Id = @Id;";
 

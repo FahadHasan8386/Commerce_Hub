@@ -1,6 +1,7 @@
 using QuickBasket.Application.Features.Products.Commands;
 using QuickBasket.Application.Interefaces.IRepository;
 using QuickBasket.Application.Interfaces;
+using QuickBasket.Application.Interfaces.IRepository;
 using QuickBasket.Infrastructure.Data;
 using QuickBasket.Infrastructure.Repositories.Implementations;
 
@@ -17,6 +18,8 @@ builder.Services.AddOpenApi();
 builder.Services.AddSingleton<IDapperContext , DapperContext>();
 
 builder.Services.AddScoped<IProductRepository , ProductRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateProductCommand).Assembly));
 
 var app = builder.Build();

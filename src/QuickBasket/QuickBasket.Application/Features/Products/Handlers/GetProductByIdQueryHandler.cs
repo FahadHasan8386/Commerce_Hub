@@ -30,7 +30,6 @@ namespace QuickBasket.Application.Features.Products.Handlers
                 Description = productEntity.Description,
                 Price = productEntity.Price,
                 StockQuantity = productEntity.StockQuantity,
-                Sku = productEntity.Sku,
                 CategoryId = productEntity.CategoryId
             };
             return Result<ProductResponseDto>.Success(dto);
