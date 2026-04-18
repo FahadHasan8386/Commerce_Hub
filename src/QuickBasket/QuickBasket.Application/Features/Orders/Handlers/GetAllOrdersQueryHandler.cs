@@ -22,3 +22,4 @@ namespace QuickBasket.Application.Features.Orders.Handlers
         }
     }
 }
+ 

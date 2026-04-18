@@ -16,7 +16,10 @@ namespace QuickBasket.Application.Mappings
             CreateMap<CreateProductDto, Product>();
             CreateMap<UpdateProductDto, Product>();
             CreateMap<Product , ProductResponseDto>();
+
             CreateMap<CreateCategoryDto, Category>();
+            CreateMap<UpdateCategoryDto, Category>();
+            CreateMap<Category, CategoryResponseDto>();
         }
     }
 }

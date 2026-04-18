@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Microsoft.IdentityModel.Tokens.Experimental;
 using QuickBasket.API.Models.Entities;
 using QuickBasket.Application.Features.Categories.DTOs;
 using QuickBasket.Application.Features.Products.DTOs;
@@ -18,15 +19,54 @@ namespace QuickBasket.Infrastructure.Repositories.Implementations
             _context = context;
         }
 
-        public async Task<int> CreateCategoryAsync(Category category)
+        public async Task<List<CategoryResponseDto>> GetAllAsync()
         {
-            const string sql = @"INSERT INTO Categories (Name, Description)
-                                VALUES (@Name, @Description);
+            const string sql = @"SELECT * FROM Categories";
+
+            using var connection = _context.CreateConnection();
+            return(await connection.QueryAsync<CategoryResponseDto>(sql)).ToList();
+        }
+
+        public async Task<CategoryResponseDto> GetByIdASync(int id)
+        {
+            const string sql = @"SELECT Id , Name ,Description FROM Categories 
+                                 WHERE Id = @Id";
+
+            using var connection = _context.CreateConnection();
+            return await connection.QueryFirstOrDefaultAsync<CategoryResponseDto>(sql, new { Id = id });
+        }
+
+        public async Task<int> CreateCategoryAsync(CreateCategoryDto category)
+        {
+            const string sql = @"INSERT INTO Categories (Name, Description , CreatedAt)
+                                VALUES (@Name, @Description , @CreatedAt);
                                 SELECT CAST(SCOPE_IDENTITY() as int)";
 
             using var connection = _context.CreateConnection();
             var id = await connection.ExecuteAsync(sql, category);
             return id;
         }
+
+        public async Task<int> UpdateCategoryAsync(UpdateCategoryDto category)
+        {
+            const string sql = @"UPDATE Categories SET
+                                 Name = @Name,
+                                 Description = @Description
+                               WHERE Id = @Id;";
+
+            using var connection = _context.CreateConnection();
+            var rawAffected = await connection.ExecuteAsync(sql, category);
+            return rawAffected;
+        }
+
+        public async Task<bool> DeleteCategoryAsync(int id)
+        {
+            const string sql = @"DELETE FROM Categories WHERE Id = @Id";
+
+            using var connection = _context.CreateConnection();
+            var rowAffected = await connection.ExecuteAsync(sql, new { Id = id });
+            return rowAffected > 0;
+        }
     }
 }
+ 
