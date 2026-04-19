@@ -5,7 +5,7 @@ using System.Text;
 
 namespace QuickBasket.Domain.Entities
 {
-    public class ProductImage
+    public class ProductImages
     {
         public long Id { get; set; }
         public long ProductId { get; set; }
