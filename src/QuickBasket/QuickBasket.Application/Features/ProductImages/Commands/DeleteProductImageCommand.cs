@@ -1,10 +1,13 @@
-﻿using System;
+﻿using MediatR;
+using QuickBasket.Shared.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace QuickBasket.Application.Features.ProductImage.Commands
 {
-    internal class DeleteProductImageCommand
+    public class DeleteProductImageCommand : IRequest<Result<bool>>
     {
+        public int Id { get; set; }
     }
 }

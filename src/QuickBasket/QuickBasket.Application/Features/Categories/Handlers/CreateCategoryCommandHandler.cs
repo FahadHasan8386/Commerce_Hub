@@ -19,7 +19,7 @@ namespace QuickBasket.Application.Features.Categories.Handlers
 
         public async Task<Result<int>> Handle(CreateCategoryCommand request , CancellationToken cancellationToken)
         {
-            var category = new Category
+            var category = new CreateCategoryDto
             {
                 Name = request.Name,
                 Description = request.Description
