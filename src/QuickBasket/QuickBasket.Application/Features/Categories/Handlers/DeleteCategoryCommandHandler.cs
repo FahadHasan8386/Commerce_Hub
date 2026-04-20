@@ -12,7 +12,7 @@ namespace QuickBasket.Application.Features.Categories.Handlers
     {
         private readonly ICategoryRepository _categoryRepository;
 
-        public DeleteCategoryCommandHandler(ICategoryRepository categoryRepository)
+        public DeleteCategoryCommandHandler(ICategoryRepository categoryRepository)  
         {
             _categoryRepository = categoryRepository;
         }

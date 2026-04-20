@@ -11,7 +11,7 @@ using System.Text;
 
 namespace QuickBasket.Application.Features.ProductImage.Handlers
 {
-    public class UpdateProductImageCommandHandler : IRequestHandler<UpdateCategoryCommand, Result<int>>
+    public class UpdateProductImageCommandHandler : IRequestHandler<UpdateProductImageCommand, Result<int>>
     {
         public readonly IProductImageRepository _productImageRepository;
 

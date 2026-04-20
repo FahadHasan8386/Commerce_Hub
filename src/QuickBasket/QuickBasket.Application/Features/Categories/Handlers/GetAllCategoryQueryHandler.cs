@@ -21,8 +21,12 @@ namespace QuickBasket.Application.Features.Categories.Handlers
         public async Task <Result<List<CategoryResponseDto>>> Handle(GetAllCategoryQuery request , CancellationToken cancellationToken)
         {
             var category = await _categoryRepository.GetAllAsync();
+            if(category == null)
+            {
+                return Result<List<CategoryResponseDto>>.Failure("Category not found", 404);
+            }
             return Result<List<CategoryResponseDto>>.Success(category, 200);
         }
     }
 }
- 
+   

@@ -17,7 +17,7 @@ namespace QuickBasket.Application.Features.Categories.Handlers
         {
             _categoryRepository = categoryRepository;
         }
-
+         
         public async Task<Result<CategoryResponseDto>> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
         {
             var category = await _categoryRepository.GetByIdAsync(request.Id);
