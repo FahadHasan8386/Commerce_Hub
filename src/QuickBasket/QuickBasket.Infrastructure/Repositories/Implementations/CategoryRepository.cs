@@ -16,7 +16,7 @@ namespace QuickBasket.Infrastructure.Repositories.Implementations
         private readonly IDapperContext _context;
         public CategoryRepository(IDapperContext context)
         {
-            _context = context;
+            _context = context; 
         }
 
         public async Task<List<CategoryResponseDto>> GetAllAsync()
@@ -27,7 +27,7 @@ namespace QuickBasket.Infrastructure.Repositories.Implementations
             return(await connection.QueryAsync<CategoryResponseDto>(sql)).ToList();
         }
 
-        public async Task<CategoryResponseDto> GetByIdASync(int id)
+        public async Task<CategoryResponseDto> GetByIdAsync(int id)
         {
             const string sql = @"SELECT Id , Name ,Description FROM Categories 
                                  WHERE Id = @Id";

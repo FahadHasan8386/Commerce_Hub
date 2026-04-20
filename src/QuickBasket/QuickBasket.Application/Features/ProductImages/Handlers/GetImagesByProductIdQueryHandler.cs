@@ -4,7 +4,7 @@ using System.Text;
 
 namespace QuickBasket.Application.Features.ProductImages.Handlers
 {
-    internal class GetImagesByProductIdQueryHandler
+    public class GetImagesByProductIdQueryHandler
     {
     }
 }
