@@ -1,10 +1,11 @@
-﻿using System;
+﻿using QuickBasket.Domain.BaseModel;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace QuickBasket.Application.Features.Categories.DTOs
 {
-    public class UpdateCategoryDto
+    public class UpdateCategoryDto : BaseEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }

@@ -8,6 +8,8 @@ using QuickBasket.Application.Features.Products.Commands;
 
 namespace QuickBasket.API.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class ProductImagesController : ControllerBase
     {
         private readonly IMediator _mediator;

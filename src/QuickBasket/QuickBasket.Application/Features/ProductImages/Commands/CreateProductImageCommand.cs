@@ -12,5 +12,6 @@ namespace QuickBasket.Application.Features.ProductImage.Commands
         public string ImageUrl { get; set; } = string.Empty;
         public bool IsPrimary { get; set; }
 
+
     }
 }

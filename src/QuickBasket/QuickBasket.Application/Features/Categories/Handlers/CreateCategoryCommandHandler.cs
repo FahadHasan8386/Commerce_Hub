@@ -22,7 +22,8 @@ namespace QuickBasket.Application.Features.Categories.Handlers
             var category = new CreateCategoryDto
             {
                 Name = request.Name,
-                Description = request.Description
+                Description = request.Description,
+                CreatedAt = DateTime.UtcNow
             };
             var categoryId = await _categoryRepository.CreateCategoryAsync(category);
             return Result<int>.Success(categoryId, 201);

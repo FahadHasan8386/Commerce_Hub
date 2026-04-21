@@ -27,7 +27,9 @@ namespace QuickBasket.Application.Features.ProductImage.Handlers
                 Id  = request.Id,
                 ProductId = request.ProductId,
                 ImageUrl = request.ImageUrl,
-                IsPrimary = request.IsPrimary
+                IsPrimary = request.IsPrimary,
+                ModifiedAt = DateTime.Now,
+                ModifiedBy = "System"
             };
             var productImageId = await _productImageRepository.UpdateProductImageAsync(productImage);
             return Result<int>.Success(productImageId, 201);

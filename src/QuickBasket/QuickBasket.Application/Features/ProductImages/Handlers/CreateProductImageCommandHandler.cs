@@ -25,7 +25,8 @@ namespace QuickBasket.Application.Features.ProductImage.Handlers
             {
                 ProductId = request.ProductId,
                 ImageUrl = request.ImageUrl,
-                IsPrimary = request.IsPrimary
+                IsPrimary = request.IsPrimary,
+                CreatedAt = DateTime.UtcNow
             };
             var productImageId = await _productImageRepository.CreateProductImageAsync(productImage);
             return Result<int>.Success(productImageId, 201);

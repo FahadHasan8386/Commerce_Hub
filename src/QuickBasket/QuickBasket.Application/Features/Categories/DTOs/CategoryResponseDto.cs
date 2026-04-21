@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuickBasket.Domain.BaseModel;
+using System;
 using System.Collections.Generic;
 using System.Text;
 

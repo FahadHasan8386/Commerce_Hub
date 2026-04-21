@@ -57,13 +57,13 @@ namespace QuickBasket.Infrastructure.Repositories.Implementations
 
         public async Task<int> UpdateProductAsync(UpdateProductDto product)
         {
-            const string sql = @"UPDATE Products SET 
-                                    Name = @Name,
-                                    Description = @Description,
-                                    Price = @Price,
-                                    StockQuantity = @StockQuantity,
-                                    CategoryId = @CategoryId
-                                WHERE Id = @Id;";
+            const string sql = @"UPDATE Products SET
+                                Name = @Name,
+                                Description = @Description,
+                                Price = @Price,
+                                StockQuantity = @StockQuantity,
+                                CategoryId = @CategoryId
+                            WHERE Id = @Id;";
 
             using var connection = _context.CreateConnection();
             var rowsAffected = await connection.ExecuteAsync(sql, product);

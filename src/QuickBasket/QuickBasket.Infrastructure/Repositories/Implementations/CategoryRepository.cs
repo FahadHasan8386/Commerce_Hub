@@ -38,8 +38,8 @@ namespace QuickBasket.Infrastructure.Repositories.Implementations
 
         public async Task<int> CreateCategoryAsync(CreateCategoryDto category)
         {
-            const string sql = @"INSERT INTO Categories (Name, Description )
-                                VALUES (@Name, @Description );
+            const string sql = @"INSERT INTO Categories (Name, Description ,CreatedAt , CreatedBy)
+                                VALUES (@Name, @Description ,@CreatedAt ,@CreatedBy);
                                 SELECT CAST(SCOPE_IDENTITY() as int)";
 
             using var connection = _context.CreateConnection();

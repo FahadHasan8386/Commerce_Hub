@@ -5,14 +5,12 @@ using System.Text;
 
 namespace QuickBasket.Domain.Entities
 {
-    public class ProductImages
+    public class ProductImages : BaseEntity
     {
-        public long Id { get; set; }
         public long ProductId { get; set; }
 
         public string ImageUrl { get; set; }
         public bool IsPrimary { get; set; }
 
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }

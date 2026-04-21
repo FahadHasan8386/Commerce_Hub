@@ -29,7 +29,7 @@ namespace QuickBasket.Infrastructure.Repositories.Implementations
 
         public async Task<ProductImageDto> GetByIdAsync(int id)
         {
-            const string sql = @"SELECT Id ,ProductId , ImageUrl ,IsPrimary , CreatedAt FROM ProductImages 
+            const string sql = @"SELECT Id ,ProductId , ImageUrl  , CreatedAt FROM ProductImages 
                                  WHERE Id = @Id";
 
             using var connection = _context.CreateConnection();
@@ -38,11 +38,9 @@ namespace QuickBasket.Infrastructure.Repositories.Implementations
 
         public async Task<int> CreateProductImageAsync(CreateProductImageDto productImage)
         {
-            const string sql = @"INSERT INTO ProductImages 
-                                (ProductId, ImageUrl, IsPrimary, CreatedAt)
-                                VALUES 
-                                (@ProductId, @ImageUrl, @IsPrimary, @CreatedAt);
-                                SELECT CAST(SCOPE_IDENTITY() as int);";
+            const string sql = @"INSERT INTO ProductImages (ProductId, ImageUrl,IsPrimary, CreatedAt, CreatedBy) 
+                                 VALUES (@ProductId, @ImageUrl,@IsPrimary, @CreatedAt, @CreatedBy);
+                                 SELECT CAST(SCOPE_IDENTITY() as int);";
 
             using var connection = _context.CreateConnection();
             var id = await connection.ExecuteAsync(sql, productImage);
@@ -51,10 +49,12 @@ namespace QuickBasket.Infrastructure.Repositories.Implementations
 
         public async Task<int> UpdateProductImageAsync(UpdateProductImageDto productImage)
         {
-            const string sql = @"UPDATE ProductImages SET
-                                ProductId = @ProductId,
-                                ImageUrl = @ImageUrl,
-                                IsPrimary = @IsPrimary
+            const string sql = @"UPDATE ProductImages SET 
+                                    ProductId = @ProductId, 
+                                    ImageUrl = @ImageUrl, 
+                                    IsPrimary = @IsPrimary,
+                                    ModifiedAt = @ModifiedAt, 
+                                    ModifiedBy = @ModifiedBy 
                                 WHERE Id = @Id;";
 
             using var connection = _context.CreateConnection();
