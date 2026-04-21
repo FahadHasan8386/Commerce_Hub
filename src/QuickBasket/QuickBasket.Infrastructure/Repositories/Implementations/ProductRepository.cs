@@ -46,8 +46,8 @@ namespace QuickBasket.Infrastructure.Repositories.Implementations
 
         public async Task<int> CreateProductAsync(CreateProductDto product)
         {
-            const string sql = @"INSERT INTO Products (Name, Description, Price, StockQuantity, CategoryId, CreatedAt)
-                                VALUES (@Name, @Description, @Price, @StockQuantity, @CategoryId, @CreatedAt);
+            const string sql = @"INSERT INTO Products (Name, Description, Price, StockQuantity, CategoryId, CreatedAt , CreatedBy)
+                                VALUES (@Name, @Description, @Price, @StockQuantity, @CategoryId, @CreatedAt , @CreatedBy);
                                 SELECT CAST(SCOPE_IDENTITY() as int)";
 
             using var connection = _context.CreateConnection();

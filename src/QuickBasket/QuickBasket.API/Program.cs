@@ -18,6 +18,7 @@ builder.Services.AddOpenApi();
 builder.Services.AddSingleton<IDapperContext , DapperContext>();
 
 builder.Services.AddScoped<IProductRepository , ProductRepository>();
+builder.Services.AddScoped<IProductImageRepository , ProductImageRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateProductCommand).Assembly));

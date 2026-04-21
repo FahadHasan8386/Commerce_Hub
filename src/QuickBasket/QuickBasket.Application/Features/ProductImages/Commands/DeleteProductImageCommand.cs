@@ -9,5 +9,9 @@ namespace QuickBasket.Application.Features.ProductImage.Commands
     public class DeleteProductImageCommand : IRequest<Result<bool>>
     {
         public int Id { get; set; }
+        public DeleteProductImageCommand(int id)
+        {
+            Id = id;
+        }
     }
 }

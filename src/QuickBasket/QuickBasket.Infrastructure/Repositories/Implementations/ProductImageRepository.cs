@@ -49,7 +49,7 @@ namespace QuickBasket.Infrastructure.Repositories.Implementations
             return id;
         }
 
-        public async Task<int> UpdateProductImageAsync(ProductImageDto productImage)
+        public async Task<int> UpdateProductImageAsync(UpdateProductImageDto productImage)
         {
             const string sql = @"UPDATE ProductImages SET
                                 ProductId = @ProductId,
@@ -71,9 +71,6 @@ namespace QuickBasket.Infrastructure.Repositories.Implementations
             return rowAffected > 0;
         }
 
-        public Task<int> UpdateProductImageAsync(UpdateProductImageDto productImage)
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 }

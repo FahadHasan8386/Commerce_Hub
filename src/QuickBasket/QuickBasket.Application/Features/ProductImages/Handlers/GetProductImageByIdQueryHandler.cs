@@ -9,7 +9,7 @@ using System.Text;
 
 namespace QuickBasket.Application.Features.ProductImage.Handlers
 {
-    public class GetProductImageByIdQueryHandler : IRequestHandler<GetProductImageByIdQuery , Result<ProductImageDto>
+    public class GetProductImageByIdQueryHandler : IRequestHandler<GetProductImageByIdQuery , Result<ProductImageDto>>
     {
         private readonly IProductImageRepository _productImageRepository;
 
