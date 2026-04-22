@@ -47,11 +47,13 @@ namespace QuickBasket.Infrastructure.Repositories.Implementations
             return id;
         }
 
-        public async Task<int> UpdateCategoryAsync(UpdateCategoryDto category)
+        public async Task<int> UpdateCategoryAsync(Category category)
         {
             const string sql = @"UPDATE Categories SET
                                  Name = @Name,
-                                 Description = @Description
+                                 Description = @Description,
+                                 ModifiedAt = @ModifiedAt, 
+                                 ModifiedBy = @ModifiedBy 
                                WHERE Id = @Id;";
 
             using var connection = _context.CreateConnection();

@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using QuickBasket.Application.Features.Categories.Commands;
+using QuickBasket.Application.Features.Categories.DTOs;
 using QuickBasket.Application.Features.Categories.Queries;
 using QuickBasket.Application.Features.Products.Commands;
 
@@ -55,11 +56,16 @@ namespace QuickBasket.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCategory(int id, [FromBody] UpdateCategoryCommand command)
+        public async Task<IActionResult> UpdateCategory(int id, UpdateCategoryDto dto)
         {
-            command.Id = id;
-            var result = await _mediator.Send(command);
+            var command = new UpdateCategoryCommand
+            {
+                Id = dto.Id,
+                Name = dto.Name,
+                Description = dto.Description
+            };
 
+            var result = await _mediator.Send(command);
             if (!result.IsSuccess)
             {
                 return StatusCode(result.StatusCode, result.ErrorMessage);

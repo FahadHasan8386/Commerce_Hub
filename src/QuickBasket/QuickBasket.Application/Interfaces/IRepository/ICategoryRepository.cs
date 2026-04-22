@@ -12,7 +12,7 @@ namespace QuickBasket.Application.Interfaces.IRepository
         Task<List<CategoryResponseDto>> GetAllAsync();
         Task<CategoryResponseDto?> GetByIdAsync(int id);
         Task<int> CreateCategoryAsync(CreateCategoryDto category);
-        Task<int> UpdateCategoryAsync(UpdateCategoryDto category);
+        Task<int> UpdateCategoryAsync(Category category);
         Task<bool> DeleteCategoryAsync(int id);
     }
 }

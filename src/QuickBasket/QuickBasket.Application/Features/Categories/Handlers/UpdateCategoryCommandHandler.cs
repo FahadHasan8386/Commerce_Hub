@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using QuickBasket.API.Models.Entities;
 using QuickBasket.Application.Features.Categories.Commands;
 using QuickBasket.Application.Features.Categories.DTOs;
 using QuickBasket.Application.Interfaces.IRepository;
@@ -20,11 +21,13 @@ namespace QuickBasket.Application.Features.Categories.Handlers
 
         public async Task <Result<int>> Handle(UpdateCategoryCommand request , CancellationToken cancellationToken)
         {
-            var category = new UpdateCategoryDto
+            var category = new Category
             {
                 Id = request.Id,
                 Name = request.Name,
-                Description = request.Description
+                Description = request.Description,
+                ModifiedAt = DateTime.Now,
+                ModifiedBy = "System"
             };
             var categoryId = await _categoryRepository.UpdateCategoryAsync(category);
             return Result<int>.Success(categoryId, 200);
