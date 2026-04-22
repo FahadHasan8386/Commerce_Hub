@@ -2,7 +2,7 @@
 
 namespace QuickBasket.API.Models.Entities
 {
-    public class Carts : BaseEntity
+    public class Cart : BaseEntity
     {
         public int Id { get; set; }
 

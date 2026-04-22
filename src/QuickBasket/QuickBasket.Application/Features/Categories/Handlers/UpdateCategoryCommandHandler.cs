@@ -26,10 +26,16 @@ namespace QuickBasket.Application.Features.Categories.Handlers
                 Id = request.Id,
                 Name = request.Name,
                 Description = request.Description,
+                //Audit Fields(Server sidee)
                 ModifiedAt = DateTime.Now,
                 ModifiedBy = "System"
             };
             var categoryId = await _categoryRepository.UpdateCategoryAsync(category);
+
+            if(categoryId ==  0)
+            {
+                return Result<int>.Failure("Update Failed", 400);
+            }
             return Result<int>.Success(categoryId, 200);
         }
     }

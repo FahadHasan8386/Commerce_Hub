@@ -45,31 +45,37 @@ namespace QuickBasket.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryCommand command)
+        public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryDto dto)
         {
-            var result = await _mediator.Send(command);
-            if (!result.IsSuccess)
+            var command = new CreateCategoryCommand
             {
-                return StatusCode(result.StatusCode, result.ErrorMessage);
-            }
-            return Ok(result.Data);
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCategory(int id, UpdateCategoryDto dto)
-        {
-            var command = new UpdateCategoryCommand
-            {
-                Id = dto.Id,
                 Name = dto.Name,
                 Description = dto.Description
             };
 
             var result = await _mediator.Send(command);
+
             if (!result.IsSuccess)
-            {
                 return StatusCode(result.StatusCode, result.ErrorMessage);
-            }
+
+            return Ok(result.Data);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateCategory(int id, [FromBody] UpdateCategoryDto dto)
+        {
+            var command = new UpdateCategoryCommand
+            {
+                Id = id,
+                Name = dto.Name,
+                Description = dto.Description
+            };
+
+            var result = await _mediator.Send(command);
+
+            if (!result.IsSuccess)
+                return StatusCode(result.StatusCode, result.ErrorMessage);
+
             return Ok(result.Data);
         }
 

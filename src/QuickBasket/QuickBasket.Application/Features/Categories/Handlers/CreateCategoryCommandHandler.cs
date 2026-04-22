@@ -19,11 +19,13 @@ namespace QuickBasket.Application.Features.Categories.Handlers
 
         public async Task<Result<int>> Handle(CreateCategoryCommand request , CancellationToken cancellationToken)
         {
-            var category = new CreateCategoryDto
+            var category = new Category
             {
                 Name = request.Name,
                 Description = request.Description,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                CreatedBy = "System",
+                IsDeleted = false
             };
             var categoryId = await _categoryRepository.CreateCategoryAsync(category);
             return Result<int>.Success(categoryId, 201);

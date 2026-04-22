@@ -36,11 +36,15 @@ namespace QuickBasket.Infrastructure.Repositories.Implementations
             return await connection.QueryFirstOrDefaultAsync<CategoryResponseDto>(sql, new { Id = id });
         }
 
-        public async Task<int> CreateCategoryAsync(CreateCategoryDto category)
+        public async Task<int> CreateCategoryAsync(Category category)
         {
-            const string sql = @"INSERT INTO Categories (Name, Description ,CreatedAt , CreatedBy)
-                                VALUES (@Name, @Description ,@CreatedAt ,@CreatedBy);
-                                SELECT CAST(SCOPE_IDENTITY() as int)";
+            const string sql = @"INSERT INTO Categories 
+                                (Name, Description, CreatedAt, CreatedBy, IsDeleted)
+                                VALUES
+                                (@Name, @Description, @CreatedAt, @CreatedBy, @IsDeleted);
+                        
+                                SELECT CAST(SCOPE_IDENTITY() as int);";
+
 
             using var connection = _context.CreateConnection();
             var id = await connection.ExecuteAsync(sql, category);
@@ -50,11 +54,11 @@ namespace QuickBasket.Infrastructure.Repositories.Implementations
         public async Task<int> UpdateCategoryAsync(Category category)
         {
             const string sql = @"UPDATE Categories SET
-                                 Name = @Name,
-                                 Description = @Description,
-                                 ModifiedAt = @ModifiedAt, 
-                                 ModifiedBy = @ModifiedBy 
-                               WHERE Id = @Id;";
+                                 Name = COALESCE(@Name, Name),
+                                 Description = COALESCE(@Description, Description),
+                                 ModifiedAt = @ModifiedAt,
+                                 ModifiedBy = @ModifiedBy
+                               WHERE Id = @Id AND IsDeleted = 0;";
 
             using var connection = _context.CreateConnection();
             var rawAffected = await connection.ExecuteAsync(sql, category);
