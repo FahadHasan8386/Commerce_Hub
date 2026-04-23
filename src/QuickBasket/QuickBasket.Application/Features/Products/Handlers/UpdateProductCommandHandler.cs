@@ -2,7 +2,7 @@
 using QuickBasket.API.Models.Entities;
 using QuickBasket.Application.Features.Products.Commands;
 using QuickBasket.Application.Features.Products.DTOs;
-using QuickBasket.Application.Interefaces.IRepository;
+using QuickBasket.Application.Interfaces.IRepository;
 using QuickBasket.Shared.Helpers;
 using System;
 using System.Collections.Generic;
@@ -20,14 +20,16 @@ namespace QuickBasket.Application.Features.Products.Handlers
         }
         public async Task<Result<int>> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
-            var product = new UpdateProductDto
+            var product = new Product
             {
                 Id = request.Id,
                 Name = request.Name,
                 Description = request.Description,
                 Price = request.Price,
                 StockQuantity = request.StockQuantity,
-                CategoryId = request.CategoryId
+                CategoryId = request.CategoryId,
+                ModifiedAt = DateTime.Now,
+                ModifiedBy = "System"
             };
 
             var productId = await _productRepository.UpdateProductAsync(product);

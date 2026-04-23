@@ -1,7 +1,8 @@
 ﻿using MediatR;
+using QuickBasket.API.Models.Entities;
 using QuickBasket.Application.Features.Products.DTOs;
 using QuickBasket.Application.Features.Products.Queries;
-using QuickBasket.Application.Interefaces.IRepository;
+using QuickBasket.Application.Interfaces.IRepository;
 using QuickBasket.Shared.Helpers;
 using System;
 using System.Collections.Generic;
@@ -20,19 +21,14 @@ namespace QuickBasket.Application.Features.Products.Handlers
 
         public async Task<Result<List<ProductResponseDto>>> Handle(GetAllProductsQuery request,CancellationToken cancellationToken)
         {
-            var products = await _productRepository.GetAllAsync();
+            var product = await _productRepository.GetAllAsync();
 
-            var dtos = products.Select(p => new ProductResponseDto
+            if(product == null)
             {
-                Id = p.Id,
-                Name = p.Name,
-                Price = p.Price,
-                Description = p.Description,
-                StockQuantity = p.StockQuantity,
-                CategoryId = p.CategoryId
-            }).ToList();
+                return Result<List<ProductResponseDto>>.Failure("Product not found ", 404);
+            }
 
-            return Result<List<ProductResponseDto>>.Success(dtos, 200);
+            return Result<List<ProductResponseDto>>.Success(product, 200);
         }
     }
 }

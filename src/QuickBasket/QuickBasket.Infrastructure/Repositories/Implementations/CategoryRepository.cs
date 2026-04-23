@@ -59,7 +59,7 @@ namespace QuickBasket.Infrastructure.Repositories.Implementations
                                  Description = COALESCE(@Description, Description),
                                  ModifiedAt = @ModifiedAt,
                                  ModifiedBy = @ModifiedBy
-                               WHERE Id = @Id AND IsDeleted = 0;";
+                               WHERE Id = @Id AND IsDeleted = 0";
 
             using var connection = _context.CreateConnection();
             return await connection.ExecuteAsync(sql, category);

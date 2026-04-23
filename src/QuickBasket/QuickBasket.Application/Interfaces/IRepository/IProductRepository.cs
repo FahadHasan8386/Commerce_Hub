@@ -4,14 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace QuickBasket.Application.Interefaces.IRepository
+namespace QuickBasket.Application.Interfaces.IRepository
 {
     public interface IProductRepository
     {
         Task<List<ProductResponseDto>> GetAllAsync();
         Task<ProductResponseDto?> GetByIdAsync(int id);
-        Task<int> CreateProductAsync(CreateProductDto product);
-        Task<int> UpdateProductAsync(UpdateProductDto product);
+        Task<int> CreateProductAsync(Product product);
+        Task<int> UpdateProductAsync(Product product);
         Task<bool> DeleteProductAsync(int id);
     }
 }

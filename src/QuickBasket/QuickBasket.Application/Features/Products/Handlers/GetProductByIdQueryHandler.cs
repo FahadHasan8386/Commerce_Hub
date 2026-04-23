@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using QuickBasket.Application.Features.Products.DTOs;
 using QuickBasket.Application.Features.Products.Queries;
-using QuickBasket.Application.Interefaces.IRepository;
+using QuickBasket.Application.Interfaces.IRepository;
 using QuickBasket.Shared.Helpers;
 
 namespace QuickBasket.Application.Features.Products.Handlers
@@ -23,16 +23,7 @@ namespace QuickBasket.Application.Features.Products.Handlers
             {
                 return Result<ProductResponseDto>.Failure($"Product with Id {request.Id} not found");
             }
-            var dto = new ProductResponseDto
-            {
-                Id = productEntity.Id,
-                Name = productEntity.Name,
-                Description = productEntity.Description,
-                Price = productEntity.Price,
-                StockQuantity = productEntity.StockQuantity,
-                CategoryId = productEntity.CategoryId
-            };
-            return Result<ProductResponseDto>.Success(dto);
+            return Result<ProductResponseDto>.Success(productEntity ,200);
         }
     }
 }

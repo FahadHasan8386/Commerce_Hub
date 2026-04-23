@@ -1,6 +1,6 @@
 using QuickBasket.Application.Features.Orders.DTOs;
 
-namespace QuickBasket.Application.Interefaces.IRepository
+namespace QuickBasket.Application.Interfaces.IRepository
 {
     public interface IOrderRepository
     {

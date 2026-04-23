@@ -1,7 +1,7 @@
 using MediatR;
 using QuickBasket.Application.Features.Orders.Commands;
 using QuickBasket.Application.Features.Orders.DTOs;
-using QuickBasket.Application.Interefaces.IRepository;
+using QuickBasket.Application.Interfaces.IRepository;
 using QuickBasket.Shared.Helpers;
 
 namespace QuickBasket.Application.Features.Orders.Handlers
