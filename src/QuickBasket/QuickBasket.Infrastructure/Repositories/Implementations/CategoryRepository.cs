@@ -21,16 +21,18 @@ namespace QuickBasket.Infrastructure.Repositories.Implementations
 
         public async Task<List<CategoryResponseDto>> GetAllAsync()
         {
-            const string sql = @"SELECT * FROM Categories";
+            const string sql = @"SELECT Id , Name ,Description FROM Categories 
+                                 WHERE IsDeleted = 0";
 
             using var connection = _context.CreateConnection();
             return(await connection.QueryAsync<CategoryResponseDto>(sql)).ToList();
         }
 
-        public async Task<CategoryResponseDto> GetByIdAsync(int id)
+        public async Task<CategoryResponseDto?> GetByIdAsync(int id)
         {
-            const string sql = @"SELECT Id , Name ,Description FROM Categories 
-                                 WHERE Id = @Id";
+            const string sql = @"SELECT Id, Name, Description 
+                                 FROM Categories 
+                                 WHERE Id = @Id AND IsDeleted = 0";
 
             using var connection = _context.CreateConnection();
             return await connection.QueryFirstOrDefaultAsync<CategoryResponseDto>(sql, new { Id = id });
@@ -47,8 +49,7 @@ namespace QuickBasket.Infrastructure.Repositories.Implementations
 
 
             using var connection = _context.CreateConnection();
-            var id = await connection.ExecuteAsync(sql, category);
-            return id;
+            return await connection.ExecuteAsync(sql, category);
         }
 
         public async Task<int> UpdateCategoryAsync(Category category)
@@ -61,17 +62,28 @@ namespace QuickBasket.Infrastructure.Repositories.Implementations
                                WHERE Id = @Id AND IsDeleted = 0;";
 
             using var connection = _context.CreateConnection();
-            var rawAffected = await connection.ExecuteAsync(sql, category);
-            return rawAffected;
+            return await connection.ExecuteAsync(sql, category);
+            
         }
 
         public async Task<bool> DeleteCategoryAsync(int id)
         {
-            const string sql = @"DELETE FROM Categories WHERE Id = @Id";
+            const string sql = @"UPDATE Categories SET
+                                 IsDeleted = 1,
+                                 ModifiedAt = @ModifiedAt,
+                                 ModifiedBy = @ModifiedBy
+                               WHERE Id = @Id AND IsDeleted = 0";
 
             using var connection = _context.CreateConnection();
-            var rowAffected = await connection.ExecuteAsync(sql, new { Id = id });
-            return rowAffected > 0;
+
+            var affected = await connection.ExecuteAsync(sql, new
+            {
+                Id = id,
+                ModifiedAt = DateTime.UtcNow,
+                ModifiedBy = "System"
+            });
+
+            return affected > 0;
         }
     }
 }
