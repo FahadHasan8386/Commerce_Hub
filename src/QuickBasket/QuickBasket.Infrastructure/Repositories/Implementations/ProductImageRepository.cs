@@ -4,6 +4,7 @@ using QuickBasket.Application.Features.ProductImage.DTOs;
 using QuickBasket.Application.Features.ProductImages.DTOs;
 using QuickBasket.Application.Interfaces;
 using QuickBasket.Application.Interfaces.IRepository;
+using QuickBasket.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,58 +20,72 @@ namespace QuickBasket.Infrastructure.Repositories.Implementations
             _context = context;
         }
 
-        public async Task<List<ProductImageDto>> GetAllAsync()
+        public async Task<List<ProductImageResponseDto>> GetAllAsync()
         {
-            const string sql = @"SELECT * FROM ProductImages";
+            const string sql = @"SELECT Id, ProductId, ImageUrl, IsPrimary, CreatedAt
+                             FROM ProductImages
+                             WHERE IsDeleted = 0";
 
             using var connection = _context.CreateConnection();
-            return (await connection.QueryAsync<ProductImageDto>(sql)).ToList();
+            return (await connection.QueryAsync<ProductImageResponseDto>(sql)).ToList();
         }
 
-        public async Task<ProductImageDto> GetByIdAsync(int id)
+        public async Task<ProductImageResponseDto?> GetByIdAsync(int id)
         {
-            const string sql = @"SELECT Id ,ProductId , ImageUrl  , CreatedAt FROM ProductImages 
-                                 WHERE Id = @Id";
+            const string sql = @"SELECT Id, ProductId, ImageUrl, IsPrimary, CreatedAt
+                             FROM ProductImages
+                             WHERE Id = @Id AND IsDeleted = 0";
 
             using var connection = _context.CreateConnection();
-            return await connection.QueryFirstOrDefaultAsync<ProductImageDto>(sql, new { Id = id });
+            return await connection.QueryFirstOrDefaultAsync<ProductImageResponseDto>(sql, new { Id = id });
         }
 
-        public async Task<int> CreateProductImageAsync(CreateProductImageDto productImage)
+        public async Task<int> CreateProductImageAsync(ProductImage productImage)
         {
-            const string sql = @"INSERT INTO ProductImages (ProductId, ImageUrl,IsPrimary, CreatedAt, CreatedBy) 
-                                 VALUES (@ProductId, @ImageUrl,@IsPrimary, @CreatedAt, @CreatedBy);
-                                 SELECT CAST(SCOPE_IDENTITY() as int);";
+            const string sql = @"INSERT INTO ProductImages 
+                                (ProductId, ImageUrl, IsPrimary, CreatedAt, CreatedBy, IsDeleted)
+                                VALUES 
+                                (@ProductId, @ImageUrl, @IsPrimary, @CreatedAt, @CreatedBy, @IsDeleted);
+
+                                SELECT CAST(SCOPE_IDENTITY() as int);";
+
 
             using var connection = _context.CreateConnection();
-            var id = await connection.ExecuteAsync(sql, productImage);
-            return id;
+            return await connection.ExecuteAsync(sql, productImage);
+         
         }
 
-        public async Task<int> UpdateProductImageAsync(UpdateProductImageDto productImage)
+        public async Task<int> UpdateProductImageAsync(ProductImage productImage)
         {
             const string sql = @"UPDATE ProductImages SET 
-                                    ProductId = @ProductId, 
-                                    ImageUrl = @ImageUrl, 
-                                    IsPrimary = @IsPrimary,
-                                    ModifiedAt = @ModifiedAt, 
-                                    ModifiedBy = @ModifiedBy 
-                                WHERE Id = @Id;";
+                                ProductId = COALESCE(@ProductId, ProductId),
+                                ImageUrl = COALESCE(@ImageUrl, ImageUrl),
+                                IsPrimary = COALESCE(@IsPrimary, IsPrimary),
+                                ModifiedAt = @ModifiedAt,
+                                ModifiedBy = @ModifiedBy
+                             WHERE Id = @Id AND IsDeleted = 0;";
 
             using var connection = _context.CreateConnection();
-            var rowAffected = await connection.ExecuteAsync(sql, productImage);
-            return rowAffected;
+            return await connection.ExecuteAsync(sql, productImage); 
         }
 
         public async Task<bool> DeleteProductImageAsync(int id)
         {
-            const string sql = @"DELETE FROM ProductImages WHERE Id = @Id";
+            const string sql = @"UPDATE ProductImages SET
+                                IsDeleted = 1,
+                                ModifiedAt = @ModifiedAt,
+                                ModifiedBy = @ModifiedBy
+                             WHERE Id = @Id AND IsDeleted = 0";
 
             using var connection = _context.CreateConnection();
-            var rowAffected = await connection.ExecuteAsync(sql, new { Id = id });
-            return rowAffected > 0;
-        }
 
-       
+            var affected = await connection.ExecuteAsync(sql, new
+            {
+                Id = id,
+                ModifiedAt = DateTime.UtcNow,
+                ModifiedBy = "System"
+            });
+            return affected > 0;
+        }
     }
 }

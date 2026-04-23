@@ -1,8 +1,11 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using QuickBasket.Application.Features.Categories.Commands;
 using QuickBasket.Application.Features.Categories.Queries;
 using QuickBasket.Application.Features.ProductImage.Commands;
+using QuickBasket.Application.Features.ProductImage.DTOs;
 using QuickBasket.Application.Features.ProductImage.Queries;
+using QuickBasket.Application.Features.ProductImages.DTOs;
 using QuickBasket.Application.Features.ProductImages.Queries;
 using QuickBasket.Application.Features.Products.Commands;
 
@@ -46,8 +49,14 @@ namespace QuickBasket.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateProductImage([FromBody] CreateProductImageCommand command)
+        public async Task<IActionResult> CreateProductImage([FromBody] CreateProductImageDto dto)
         {
+            var command = new CreateProductImageCommand
+            {
+                ImageUrl = dto.ImageUrl,
+                IsPrimary = dto.IsPrimary,
+                ProductId = dto.ProductId
+            };
             var result = await _mediator.Send(command);
 
             if (!result.IsSuccess)
@@ -58,9 +67,15 @@ namespace QuickBasket.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProductImage(int id, [FromBody] UpdateProductImageCommand command)
+        public async Task<IActionResult> UpdateProductImage(int id, [FromBody] UpdateProductImageDto dto)
         {
-            command.Id = id;
+            var command = new UpdateProductImageCommand
+            {
+                Id = id,
+                ImageUrl = dto.ImageUrl,
+                IsPrimary = dto.IsPrimary,
+                ProductId = dto.ProductId
+            };
 
             var result = await _mediator.Send(command);
 

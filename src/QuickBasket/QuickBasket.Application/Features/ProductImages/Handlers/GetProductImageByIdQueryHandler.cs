@@ -9,7 +9,7 @@ using System.Text;
 
 namespace QuickBasket.Application.Features.ProductImage.Handlers
 {
-    public class GetProductImageByIdQueryHandler : IRequestHandler<GetProductImageByIdQuery , Result<ProductImageDto>>
+    public class GetProductImageByIdQueryHandler : IRequestHandler<GetProductImageByIdQuery , Result<ProductImageResponseDto>>
     {
         private readonly IProductImageRepository _productImageRepository;
 
@@ -17,15 +17,15 @@ namespace QuickBasket.Application.Features.ProductImage.Handlers
         {
             _productImageRepository = productImageRepository;
         }
-        public async Task<Result<ProductImageDto>> Handle(GetProductImageByIdQuery request, CancellationToken cancellationToken)
+        public async Task<Result<ProductImageResponseDto>> Handle(GetProductImageByIdQuery request, CancellationToken cancellationToken)
         {
             var productImage = await _productImageRepository.GetByIdAsync(request.Id);
 
             if(productImage == null)
             {
-                return Result<ProductImageDto>.Failure($"Image with Id {request.Id} not found", 404);
+                return Result<ProductImageResponseDto>.Failure($"Image with Id {request.Id} not found", 404);
             }
-            return Result<ProductImageDto>.Success(productImage, 200);
+            return Result<ProductImageResponseDto>.Success(productImage, 200);
         }
     }
 }

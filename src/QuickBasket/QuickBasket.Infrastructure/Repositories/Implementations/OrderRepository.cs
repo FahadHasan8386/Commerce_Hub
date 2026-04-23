@@ -1,6 +1,6 @@
 using Dapper;
 using QuickBasket.Application.Features.Orders.DTOs;
-using QuickBasket.Application.Interefaces.IRepository;
+using QuickBasket.Application.Interfaces.IRepository;
 using QuickBasket.Application.Interfaces;
 
 namespace QuickBasket.Infrastructure.Repositories.Implementations

@@ -2,7 +2,6 @@
 using QuickBasket.API.Models.Entities;
 using QuickBasket.Application.Features.Categories.Commands;
 using QuickBasket.Application.Features.Categories.DTOs;
-using QuickBasket.Application.Interefaces.IRepository;
 using QuickBasket.Application.Interfaces.IRepository;
 using QuickBasket.Shared.Helpers;
 

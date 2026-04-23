@@ -1,7 +1,6 @@
 using QuickBasket.Application.Features.Products.Commands;
-using QuickBasket.Application.Interefaces.IRepository;
-using QuickBasket.Application.Interfaces;
 using QuickBasket.Application.Interfaces.IRepository;
+using QuickBasket.Application.Interfaces;
 using QuickBasket.Infrastructure.Data;
 using QuickBasket.Infrastructure.Repositories.Implementations;
 

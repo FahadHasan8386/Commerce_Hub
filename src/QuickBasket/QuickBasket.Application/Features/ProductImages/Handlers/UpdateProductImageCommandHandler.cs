@@ -5,7 +5,7 @@ using QuickBasket.Application.Features.ProductImage.DTOs;
 using QuickBasket.Application.Features.ProductImages.DTOs;
 using QuickBasket.Application.Interfaces.IRepository;
 using QuickBasket.Shared.Helpers;
-using System;
+using QuickBasket.Domain.Entities;
 using System.Collections.Generic;
 using System.Text;
 
@@ -22,7 +22,7 @@ namespace QuickBasket.Application.Features.ProductImage.Handlers
 
         public async Task<Result<int>> Handle(UpdateProductImageCommand request, CancellationToken cancellationToken)
         {
-            var productImage = new UpdateProductImageDto
+            var productImage = new ProductImage
             {
                 Id  = request.Id,
                 ProductId = request.ProductId,

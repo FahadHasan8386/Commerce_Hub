@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using QuickBasket.Application.Features.Products.Commands;
-using QuickBasket.Application.Interefaces.IRepository;
+using QuickBasket.Application.Interfaces.IRepository;
 using QuickBasket.Shared.Helpers;
 using System;
 using System.Collections.Generic;
