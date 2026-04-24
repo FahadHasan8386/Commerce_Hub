@@ -6,7 +6,6 @@ using QuickBasket.Domain.Entities;
 
 namespace QuickBasket.Application.Features.ProductImages.Handlers
 {
-    // Create Handler
     public class CreateProductImageCommandHandler : IRequestHandler<CreateProductImageCommand, Result<int>>
     {
         private readonly IProductImageRepository _productImageRepository;
