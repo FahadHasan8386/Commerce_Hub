@@ -1,6 +1,6 @@
 ﻿using QuickBasket.Domain.BaseModel;
 
-namespace QuickBasket.API.Models.Entities
+namespace QuickBasket.Domain.Entities
 {
     public class Category : BaseEntity
     {

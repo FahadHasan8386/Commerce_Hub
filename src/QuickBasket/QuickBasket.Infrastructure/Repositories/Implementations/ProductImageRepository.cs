@@ -1,13 +1,8 @@
 ﻿using Dapper;
-using QuickBasket.Application.Features.Categories.DTOs;
-using QuickBasket.Application.Features.ProductImage.DTOs;
 using QuickBasket.Application.Features.ProductImages.DTOs;
 using QuickBasket.Application.Interfaces;
 using QuickBasket.Application.Interfaces.IRepository;
 using QuickBasket.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace QuickBasket.Infrastructure.Repositories.Implementations
 {
@@ -40,7 +35,7 @@ namespace QuickBasket.Infrastructure.Repositories.Implementations
             return await connection.QueryFirstOrDefaultAsync<ProductImageResponseDto>(sql, new { Id = id });
         }
 
-        public async Task<int> CreateProductImageAsync(ProductImage productImage)
+        public async Task<int> CreateProductImageAsync(ProductImages productImage)
         {
             const string sql = @"INSERT INTO ProductImages 
                                 (ProductId, ImageUrl, IsPrimary, CreatedAt, CreatedBy, IsDeleted)
@@ -55,7 +50,7 @@ namespace QuickBasket.Infrastructure.Repositories.Implementations
          
         }
 
-        public async Task<int> UpdateProductImageAsync(ProductImage productImage)
+        public async Task<int> UpdateProductImageAsync(ProductImages productImage)
         {
             const string sql = @"UPDATE ProductImages SET 
                                 ProductId = COALESCE(@ProductId, ProductId),

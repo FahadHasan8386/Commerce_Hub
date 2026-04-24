@@ -1,5 +1,4 @@
 ﻿using QuickBasket.Application.Features.Categories.DTOs;
-using QuickBasket.Application.Features.ProductImage.DTOs;
 using QuickBasket.Application.Features.ProductImages.DTOs;
 using QuickBasket.Application.Features.Products.DTOs;
 using QuickBasket.Domain.Entities;
@@ -13,8 +12,8 @@ namespace QuickBasket.Application.Interfaces.IRepository
     {
         Task<List<ProductImageResponseDto>> GetAllAsync();
         Task<ProductImageResponseDto?> GetByIdAsync(int id);
-        Task<int> CreateProductImageAsync(ProductImage productImage);
-        Task<int> UpdateProductImageAsync(ProductImage productImage);
+        Task<int> CreateProductImageAsync(ProductImages productImage);
+        Task<int> UpdateProductImageAsync(ProductImages productImage);
         Task<bool> DeleteProductImageAsync(int id);
     }
 }

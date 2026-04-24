@@ -1,9 +1,4 @@
-﻿using QuickBasket.Domain.BaseModel;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace QuickBasket.Application.Features.Categories.DTOs
+﻿namespace QuickBasket.Application.Features.Categories.DTOs
 {
     public class CreateCategoryDto 
     {

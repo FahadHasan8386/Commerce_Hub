@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace QuickBasket.Application.Features.ProductImage.Queries
+namespace QuickBasket.Application.Features.ProductImages.Queries
 {
     internal class GetImagesByProductIdQuery
     {

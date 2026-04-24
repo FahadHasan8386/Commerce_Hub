@@ -1,10 +1,7 @@
 ﻿using MediatR;
 using QuickBasket.Shared.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace QuickBasket.Application.Features.ProductImage.Commands
+namespace QuickBasket.Application.Features.ProductImages.Commands
 {
     public class DeleteProductImageCommand : IRequest<Result<bool>>
     {

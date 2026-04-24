@@ -1,19 +1,14 @@
 ﻿using MediatR;
-using QuickBasket.Application.Features.Categories.Commands;
-using QuickBasket.Application.Features.ProductImage.Commands;
-using QuickBasket.Application.Features.ProductImage.DTOs;
-using QuickBasket.Application.Features.ProductImages.DTOs;
+using QuickBasket.Application.Features.ProductImages.Commands;
 using QuickBasket.Application.Interfaces.IRepository;
 using QuickBasket.Shared.Helpers;
-using QuickBasket.Domain.Entities;
-using System.Collections.Generic;
-using System.Text;
+using QuickBasket.Domain.Entities; 
 
-namespace QuickBasket.Application.Features.ProductImage.Handlers
+namespace QuickBasket.Application.Features.ProductImages.Handlers
 {
     public class UpdateProductImageCommandHandler : IRequestHandler<UpdateProductImageCommand, Result<int>>
     {
-        public readonly IProductImageRepository _productImageRepository;
+        private readonly IProductImageRepository _productImageRepository;
 
         public UpdateProductImageCommandHandler(IProductImageRepository productImageRepository)
         {
@@ -22,17 +17,18 @@ namespace QuickBasket.Application.Features.ProductImage.Handlers
 
         public async Task<Result<int>> Handle(UpdateProductImageCommand request, CancellationToken cancellationToken)
         {
-            var productImage = new ProductImage
+            var productImage = new ProductImages
             {
-                Id  = request.Id,
+                Id = request.Id,
                 ProductId = request.ProductId,
                 ImageUrl = request.ImageUrl,
                 IsPrimary = request.IsPrimary,
-                ModifiedAt = DateTime.Now,
+                ModifiedAt = DateTime.UtcNow,
                 ModifiedBy = "System"
             };
-            var productImageId = await _productImageRepository.UpdateProductImageAsync(productImage);
-            return Result<int>.Success(productImageId, 201);
+
+            var result = await _productImageRepository.UpdateProductImageAsync(productImage);
+            return Result<int>.Success(result, 200);
         }
-    } 
+    }
 }

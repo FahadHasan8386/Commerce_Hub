@@ -1,13 +1,15 @@
 ﻿using MediatR;
-using QuickBasket.Application.Features.ProductImage.Commands;
+using QuickBasket.Application.Features.ProductImages.Commands;
 using QuickBasket.Application.Interfaces.IRepository;
 using QuickBasket.Shared.Helpers;
+using QuickBasket.Domain.Entities;
 
-namespace QuickBasket.Application.Features.ProductImage.Handlers
+namespace QuickBasket.Application.Features.ProductImages.Handlers
 {
-    public class CreateProductImageCommandHandler : IRequestHandler<CreateProductImageCommand , Result<int>>
+    // Create Handler
+    public class CreateProductImageCommandHandler : IRequestHandler<CreateProductImageCommand, Result<int>>
     {
-        public readonly IProductImageRepository _productImageRepository;
+        private readonly IProductImageRepository _productImageRepository;
 
         public CreateProductImageCommandHandler(IProductImageRepository productImageRepository)
         {
@@ -16,7 +18,7 @@ namespace QuickBasket.Application.Features.ProductImage.Handlers
 
         public async Task<Result<int>> Handle(CreateProductImageCommand request, CancellationToken cancellationToken)
         {
-            var productImage = new ProductImage
+            var productImage = new ProductImages
             {
                 ProductId = request.ProductId,
                 ImageUrl = request.ImageUrl,
@@ -26,8 +28,9 @@ namespace QuickBasket.Application.Features.ProductImage.Handlers
                 IsDeleted = false
             };
 
-            var productImageId = await _productImageRepository.CreateProductImageAsync(productImage);
-            return Result<int>.Success(productImageId, 201);
+            var id = await _productImageRepository.CreateProductImageAsync(productImage);
+            return Result<int>.Success(id, 201);
         }
     }
+
 }

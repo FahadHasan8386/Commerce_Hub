@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using QuickBasket.API.Models.Entities;
+using QuickBasket.Domain.Entities;
 using QuickBasket.Application.Features.Categories.Commands;
 using QuickBasket.Application.Features.Categories.DTOs;
 using QuickBasket.Application.Interfaces.IRepository;

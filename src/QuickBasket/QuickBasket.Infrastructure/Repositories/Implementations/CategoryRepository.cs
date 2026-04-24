@@ -1,13 +1,8 @@
 ﻿using Dapper;
-using Microsoft.IdentityModel.Tokens.Experimental;
-using QuickBasket.API.Models.Entities;
 using QuickBasket.Application.Features.Categories.DTOs;
-using QuickBasket.Application.Features.Products.DTOs;
 using QuickBasket.Application.Interfaces;
 using QuickBasket.Application.Interfaces.IRepository;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using QuickBasket.Domain.Entities;
 
 namespace QuickBasket.Infrastructure.Repositories.Implementations
 {

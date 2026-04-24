@@ -1,9 +1,6 @@
 ﻿using MediatR;
-using QuickBasket.Application.Features.ProductImage.DTOs;
+using QuickBasket.Application.Features.ProductImages.DTOs;
 using QuickBasket.Shared.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace QuickBasket.Application.Features.ProductImages.Queries
 {

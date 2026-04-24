@@ -1,13 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using QuickBasket.Application.Features.Categories.Commands;
-using QuickBasket.Application.Features.Categories.Queries;
-using QuickBasket.Application.Features.ProductImage.Commands;
-using QuickBasket.Application.Features.ProductImage.DTOs;
-using QuickBasket.Application.Features.ProductImage.Queries;
+using QuickBasket.Application.Features.ProductImages.Commands;
 using QuickBasket.Application.Features.ProductImages.DTOs;
 using QuickBasket.Application.Features.ProductImages.Queries;
-using QuickBasket.Application.Features.Products.Commands;
 
 namespace QuickBasket.API.Controllers
 {

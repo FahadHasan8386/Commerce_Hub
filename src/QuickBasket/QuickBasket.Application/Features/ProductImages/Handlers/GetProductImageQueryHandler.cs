@@ -1,13 +1,10 @@
 ﻿using MediatR;
-using QuickBasket.Application.Features.ProductImage.DTOs;
-using QuickBasket.Application.Features.ProductImage.Queries;
+using QuickBasket.Application.Features.ProductImages.DTOs;
+using QuickBasket.Application.Features.ProductImages.Queries;
 using QuickBasket.Application.Interfaces.IRepository;
 using QuickBasket.Shared.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace QuickBasket.Application.Features.ProductImage.Handlers
+namespace QuickBasket.Application.Features.ProductImages.Handlers
 {
     public class GetProductImageQueryHandler : IRequestHandler<GetProductImagesQuery, Result<List<ProductImageResponseDto>>>
     {

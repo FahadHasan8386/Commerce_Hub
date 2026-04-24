@@ -1,10 +1,5 @@
-﻿using QuickBasket.API.Models.Entities;
-using QuickBasket.Application.Features.Categories.DTOs;
-using QuickBasket.Application.Features.Products.DTOs;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿using QuickBasket.Application.Features.Categories.DTOs;
+using QuickBasket.Domain.Entities;
 namespace QuickBasket.Application.Interfaces.IRepository
 {
     public interface ICategoryRepository
