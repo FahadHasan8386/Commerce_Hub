@@ -1,4 +1,6 @@
-﻿namespace QuickBasket.Application.Features.Categories.DTOs
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace QuickBasket.Application.Features.Categories.DTOs
 {
     public class CreateCategoryDto 
     {

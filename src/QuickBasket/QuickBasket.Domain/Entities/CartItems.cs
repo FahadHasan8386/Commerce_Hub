@@ -11,3 +11,4 @@ namespace QuickBasket.Domain.Entities
 
     } 
 }
+   
