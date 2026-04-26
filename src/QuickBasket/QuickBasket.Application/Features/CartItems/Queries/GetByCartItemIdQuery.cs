@@ -10,5 +10,10 @@ namespace QuickBasket.Application.Features.CartItems.Queries
     public class GetByCartItemIdQuery : IRequest<Result<CartItemResponseDto>>
     {
         public int Id {  get; set; }
+
+        public GetByCartItemIdQuery(int id)
+        {
+            Id = id;
+        }
     }
 }

@@ -1,12 +1,8 @@
-﻿using QuickBasket.API.Models.Entities;
-using QuickBasket.Infrastructure.Data;
-using System;
-using System.Collections.Generic;
-using Dapper;
-using System.Text;
-using QuickBasket.Application.Interfaces.IRepository;
-using QuickBasket.Application.Interfaces;
+﻿using Dapper;
+using QuickBasket.API.Models.Entities;
 using QuickBasket.Application.Features.Products.DTOs;
+using QuickBasket.Application.Interfaces;
+using QuickBasket.Application.Interfaces.IRepository;
 
 namespace QuickBasket.Infrastructure.Repositories.Implementations
 {
@@ -29,7 +25,7 @@ namespace QuickBasket.Infrastructure.Repositories.Implementations
             using var connection = _context.CreateConnection();
             return (await connection.QueryAsync<ProductResponseDto>(sql)).ToList();
         }
-
+          
         public async Task<ProductResponseDto?> GetByIdAsync(int id)
         {
             const string sql = @"SELECT Id,Name,Description,Price,StockQuantity,CategoryId

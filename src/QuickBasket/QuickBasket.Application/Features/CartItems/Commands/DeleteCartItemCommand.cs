@@ -10,5 +10,10 @@ namespace QuickBasket.Application.Features.CartItems.Commands
     {
         public int Id { get; set; }
 
+        public DeleteCartItemCommand(int id)
+        {
+            Id = id;
+        }
+
     }
 }
