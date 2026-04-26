@@ -2,7 +2,7 @@
 
 namespace QuickBasket.Domain.Entities
 {
-    public class CartItems : BaseEntity
+    public class CartItem : BaseEntity
     {
         public int CartId { get; set; }
         public int ProductId { get; set; }

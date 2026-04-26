@@ -12,8 +12,8 @@ namespace QuickBasket.Application.Interfaces.IRepository
     {
         Task<List<CartItemResponseDto>> GetAllAsync();
         Task<CartItemResponseDto?> GetByIdAsync(int id);
-        Task<int> CreateCartItemAsync(CartItems cartItems);
-        Task<int> UpdateCartItemAsync(CartItems cartItems);
+        Task<int> CreateCartItemAsync(CartItem cartItems);
+        Task<int> UpdateCartItemAsync(CartItem cartItems);
         Task<bool> DeleteCartItemAsync(int id);
     }
 }

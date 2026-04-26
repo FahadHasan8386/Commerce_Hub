@@ -4,7 +4,9 @@ using System.Text;
 
 namespace QuickBasket.Application.Features.Carts.DTOs
 {
-    internal class UpdateCartDto
+    public class UpdateCartDto
     {
+        public int Id { get; set; }
+        public bool? IsCheckedOut { get; set; }
     }
 }

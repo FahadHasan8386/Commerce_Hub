@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using QuickBasket.Application.Features.CartItems.Commands;
 using QuickBasket.Application.Interfaces.IRepository;
+using QuickBasket.Domain.Entities;
 using QuickBasket.Shared.Helpers;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace QuickBasket.Application.Features.CartItems.Handler
 
         public async Task<Result<int>> Handle(CreateCartItemCommand request , CancellationToken cancellationToken)
         {
-            var cartItem = new CartItems
+            var cartItem = new CartItem
             {
                 Quantity = request.Quantity,
                 UnitPrice = request.UnitPrice,
@@ -31,7 +32,7 @@ namespace QuickBasket.Application.Features.CartItems.Handler
             };
 
             var result = await _cartItemRepository.CreateCartItemAsync(cartItem);
-            return Result<int>.Success(cartItem, 201);
+            return Result<int>.Success(result, 201);
         }
     }
 }

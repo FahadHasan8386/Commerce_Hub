@@ -17,7 +17,7 @@ namespace QuickBasket.Application.Features.ProductImages.Handlers
 
         public async Task<Result<int>> Handle(CreateProductImageCommand request, CancellationToken cancellationToken)
         {
-            var productImage = new ProductImages
+            var productImage = new ProductImage
             {
                 ProductId = request.ProductId,
                 ImageUrl = request.ImageUrl,

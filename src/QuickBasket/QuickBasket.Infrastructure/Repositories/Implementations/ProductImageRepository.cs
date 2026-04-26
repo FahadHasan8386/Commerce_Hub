@@ -35,7 +35,7 @@ namespace QuickBasket.Infrastructure.Repositories.Implementations
             return await connection.QueryFirstOrDefaultAsync<ProductImageResponseDto>(sql, new { Id = id });
         }
 
-        public async Task<int> CreateProductImageAsync(ProductImages productImage)
+        public async Task<int> CreateProductImageAsync(ProductImage productImage)
         {
             const string sql = @"INSERT INTO ProductImages 
                                 (ProductId, ImageUrl, IsPrimary, CreatedAt, CreatedBy, IsDeleted)
@@ -50,7 +50,7 @@ namespace QuickBasket.Infrastructure.Repositories.Implementations
          
         }
 
-        public async Task<int> UpdateProductImageAsync(ProductImages productImage)
+        public async Task<int> UpdateProductImageAsync(ProductImage productImage)
         {
             const string sql = @"UPDATE ProductImages SET 
                                 ProductId = COALESCE(@ProductId, ProductId),

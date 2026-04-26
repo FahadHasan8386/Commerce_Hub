@@ -2,7 +2,7 @@
 
 namespace QuickBasket.Domain.Entities
 {
-    public class ProductImages : BaseEntity
+    public class ProductImage : BaseEntity
     {
         public string? ImageUrl { get; set; }
         public bool IsPrimary { get; set; }

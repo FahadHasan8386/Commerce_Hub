@@ -12,8 +12,8 @@ namespace QuickBasket.Application.Interfaces.IRepository
     {
         Task<List<ProductImageResponseDto>> GetAllAsync();
         Task<ProductImageResponseDto?> GetByIdAsync(int id);
-        Task<int> CreateProductImageAsync(ProductImages productImage);
-        Task<int> UpdateProductImageAsync(ProductImages productImage);
+        Task<int> CreateProductImageAsync(ProductImage productImage);
+        Task<int> UpdateProductImageAsync(ProductImage productImage);
         Task<bool> DeleteProductImageAsync(int id);
     }
 }

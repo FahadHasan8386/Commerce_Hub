@@ -35,7 +35,7 @@ namespace QuickBasket.Infrastructure.Repositories.Implementations
             return await connection.QueryFirstOrDefaultAsync<CartItemResponseDto>(sql, new { Id = id });
         }
 
-        public async Task<int> CreateCartItemAsync(CartItems cartItems)
+        public async Task<int> CreateCartItemAsync(CartItem cartItem)
         {
             const string sql = @"INSERT INTO CartItems 
                                 (Name, Quantity, UnitPrice, CartId, ProductId, CreatedAt , CreatedBy ,IsDeleted)
@@ -44,10 +44,10 @@ namespace QuickBasket.Infrastructure.Repositories.Implementations
                                 SELECT CAST(SCOPE_IDENTITY() as int)";
 
             using var connection = _context.CreateConnection();
-            return await connection.ExecuteScalarAsync<int>(sql, cartItems);
+            return await connection.ExecuteScalarAsync<int>(sql, cartItem);
         }
 
-        public async Task<int> UpdateCartItemAsync(CartItems cartItems)
+        public async Task<int> UpdateCartItemAsync(CartItem cartItem)
         {
             const string sql = @"UPDATE CartItems SET
                                 Name = COALESCE(@Name, Name),
@@ -60,7 +60,7 @@ namespace QuickBasket.Infrastructure.Repositories.Implementations
                                WHERE Id = @Id AND IsDeleted = 0";
 
             using var connection = _context.CreateConnection();
-            return await connection.ExecuteAsync(sql, cartItems);
+            return await connection.ExecuteAsync(sql, cartItem);
         }
 
         public async Task<bool> DeleteCartItemAsync(int id)

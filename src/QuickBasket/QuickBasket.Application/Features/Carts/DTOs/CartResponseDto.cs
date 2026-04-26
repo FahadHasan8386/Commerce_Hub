@@ -4,7 +4,11 @@ using System.Text;
 
 namespace QuickBasket.Application.Features.Carts.DTOs
 {
-    internal class CartResponseDto
+    public class CartResponseDto
     {
+        public int Id { get; set; }
+        public int? UserId { get; set; }
+        public string? SessionId { get; set; }
+        public bool IsCheckedOut { get; set; }
     }
 }

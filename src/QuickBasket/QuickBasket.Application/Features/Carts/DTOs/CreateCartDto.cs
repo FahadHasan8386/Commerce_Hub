@@ -4,7 +4,9 @@ using System.Text;
 
 namespace QuickBasket.Application.Features.Carts.DTOs
 {
-    internal class CreateCartDto
+    public class CreateCartDto
     {
+        public int? UserId { get; set; }
+        public string? SessionId { get; set; }
     }
 }
