@@ -1,0 +1,20 @@
+CREATE TABLE Carts (
+    Id BIGINT IDENTITY(1,1) NOT NULL 
+        CONSTRAINT PK_Carts PRIMARY KEY,
+
+    UserId BIGINT NULL,
+    SessionId NVARCHAR(100) NULL,
+
+    IsCheckedOut BIT NOT NULL
+        CONSTRAINT DF_Carts_IsCheckedOut DEFAULT 0,
+
+    CreatedBy NVARCHAR(50) NOT NULL,
+    CreatedAt DATETIME NOT NULL
+        CONSTRAINT DF_Carts_CreatedAt DEFAULT GETUTCDATE(),
+
+    IsDeleted BIT NOT NULL
+        CONSTRAINT DF_Carts_IsDeleted DEFAULT 0,
+
+    ModifiedBy NVARCHAR(50) NULL,
+    ModifiedAt DATETIME NULL
+);
