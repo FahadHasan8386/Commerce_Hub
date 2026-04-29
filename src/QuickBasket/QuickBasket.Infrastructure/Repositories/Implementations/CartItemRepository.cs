@@ -38,9 +38,9 @@ namespace QuickBasket.Infrastructure.Repositories.Implementations
         public async Task<int> CreateCartItemAsync(CartItem cartItem)
         {
             const string sql = @"INSERT INTO CartItems 
-                                (Name, Quantity, UnitPrice, CartId, ProductId, CreatedAt , CreatedBy ,IsDeleted)
+                                ( Quantity, UnitPrice, CartId, ProductId, CreatedAt , CreatedBy ,IsDeleted)
                                 VALUES 
-                                (@Name, @Quantity, @UnitPrice, @CartId, @ProductId, @CreatedAt , @CreatedBy ,@IsDeleted);
+                                ( @Quantity, @UnitPrice, @CartId, @ProductId, @CreatedAt , @CreatedBy ,@IsDeleted);
                                 SELECT CAST(SCOPE_IDENTITY() as int)";
 
             using var connection = _context.CreateConnection();
