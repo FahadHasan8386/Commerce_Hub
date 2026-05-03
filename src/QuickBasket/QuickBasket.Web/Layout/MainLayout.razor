@@ -1,0 +1,25 @@
+﻿@inherits LayoutComponentBase
+
+<div class="app-wrapper">
+    <header class="navbar">
+        <div class="navbar-inner">
+            <a href="/" class="navbar-brand">
+                <span class="brand-icon">🧺</span>
+                <span class="brand-text">QuickBasket</span>
+            </a>
+            <nav class="navbar-nav">
+                <a href="/products" class="nav-link">Shop</a>
+                <a href="/orders" class="nav-link">My Orders</a>
+                <CartBadge />
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        @Body
+    </main>
+
+    <footer class="footer">
+        <p>© 2025 QuickBasket. Built with Blazor WebAssembly.</p>
+    </footer>
+</div>
