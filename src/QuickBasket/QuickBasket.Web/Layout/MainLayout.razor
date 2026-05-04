@@ -3,19 +3,21 @@
 <div class="app-wrapper">
     <header class="navbar">
         <div class="navbar-inner">
-            <a href="/" class="navbar-brand">
+            
+            <NavLink href="/" class="navbar-brand">
                 <span class="brand-icon">🧺</span>
                 <span class="brand-text">QuickBasket</span>
-            </a>
+            </NavLink>
+
             <nav class="navbar-nav">
-                <a href="/products" class="nav-link">Shop</a>
-                <a href="/orders" class="nav-link">My Orders</a>
-                <CartBadge />
+                <NavLink href="/products" class="nav-link">Shop</NavLink>
+                <NavLink href="/orders" class="nav-link">My Orders</NavLink>
             </nav>
+
         </div>
     </header>
 
-    <main class="main-content">
+    <main class="main-content"> 
         @Body
     </main>
 
