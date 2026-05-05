@@ -2,26 +2,65 @@
   
 <PageTitle>Home</PageTitle>
 
-<div class="row">
-	<div class="col-12">
-		<div class="row">
-			<div class="col-12 col-md-6">
-				<h1 class="fw-bold">Expense Management System</h1>
-				<p class="text-muted">A true tracking of daily financial activities</p>
-			</div>
-			<div class="col-12 col-md-6">
-				<div class="hero-button-gap">
-					<button type="button" class="btn btn-outline-info rm-btn-focus" data-bs-toggle="modal" data-bs-target="#invoiceModal">
-						<i class="bi bi-search"></i> Query
-					</button>
-					<button type="button" class="btn btn-outline-success rm-btn-focus" data-bs-toggle="modal" data-bs-target="#depositModal">
-						<i class="bi bi-arrow-up-square"></i> Deposit
-					</button>
-					<button type="button" class="btn btn-outline-warning rm-btn-focus" data-bs-toggle="modal" data-bs-target="#expenseModal">
-						<i class="bi bi-arrow-down-square"></i> Expense
-					</button>
-				</div>
-			</div>
-		</div>
-	</div>
+<!-- Hero Section -->
+<div class="hero-section">
+    <div class="container text-center">
+        <h1>Welcome to eCommerce Store</h1>
+        <p class="lead mb-4">Discover amazing products at unbeatable prices</p>
+        <a href="/Products" class="btn btn-light btn-lg">Shop Now</a>
+    </div>
+</div>
+
+<div class="container">
+    <!-- Featured Categories -->
+    <div class="row mb-5">
+        <div class="col-12 text-center mb-4">
+            <h2>Shop by Category</h2>
+            <p class="text-muted">Browse our wide range of products</p>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card text-center category-card">
+                <div class="card-body">
+                    <i class="fas fa-laptop fa-3x text-primary mb-3"></i>
+                    <h4>Electronics</h4>
+                    <p>Latest gadgets and devices</p>
+                    <a href="/Products?categoryId=1" class="btn btn-outline-primary">Shop Now</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card text-center category-card">
+                <div class="card-body">
+                    <i class="fas fa-tshirt fa-3x text-success mb-3"></i>
+                    <h4>Fashion</h4>
+                    <p>Trendy clothing and accessories</p>
+                    <a href="/Products?categoryId=2" class="btn btn-outline-primary">Shop Now</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card text-center category-card">
+                <div class="card-body">
+                    <i class="fas fa-book fa-3x text-info mb-3"></i>
+                    <h4>Books</h4>
+                    <p>Best-selling books</p>
+                    <a href="/Products?categoryId=3" class="btn btn-outline-primary">Shop Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Featured Products -->
+    <div class="row">
+        <div class="col-12 text-center mb-4">
+            <h2>Featured Products</h2>
+            <p class="text-muted">Check out our most popular items</p>
+        </div>
+        
+        @* Products will be loaded dynamically *@
+        <div id="featuredProducts" class="row"></div>
+    </div>
 </div>
