@@ -1,5 +1,40 @@
-﻿<h3>Products</h3>
+﻿@page "/app/products"
+@inject ProductApiService ProductService
+
+<h3>Our Products</h3>
+
+@if (products == null)
+{
+    <div class="alert alert-info">Loading products from server...</div>
+}
+else if (!products.Any())
+{
+    <div class="alert alert-warning">No products found in the database.</div>
+}
+else
+{
+    <div class="row">
+        @foreach (var product in products)
+        {
+            <div class="col-md-4 mb-3">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">@product.Name</h5>
+                        <p class="card-text text-muted">@product.Description</p>
+                        <p class="fw-bold text-primary">Price: ৳@product.Price</p>
+                        <span class="badge bg-success">Stock: @product.StockQuantity</span>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
 
 @code {
+    private List<ProductResponseDto>? products; 
 
+    protected override async Task OnInitializedAsync()
+    {
+        products = await ProductService.GetAllProductsAsync();
+    }
 }

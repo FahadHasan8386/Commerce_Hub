@@ -1,6 +1,6 @@
 ﻿namespace QuickBasket.Web.Services
 {
-    public class OrderService
+    public class OrderApiService
     {
     }
 }
