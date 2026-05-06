@@ -23,7 +23,7 @@ namespace QuickBasket.Application.Features.Products.Handlers
         {
             var product = await _productRepository.GetAllAsync();
 
-            if(product == null)
+            if(product == null || !product.Any())
             {
                 return Result<List<ProductResponseDto>>.Failure("Product not found ", 404);
             }

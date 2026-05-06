@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using QuickBasket.API.Models.Entities;
+using QuickBasket.Application.Features.ProductImages.DTOs;
 using QuickBasket.Application.Features.Products.DTOs;
 using QuickBasket.Application.Interfaces;
 using QuickBasket.Application.Interfaces.IRepository;
@@ -18,22 +19,54 @@ namespace QuickBasket.Infrastructure.Repositories.Implementations
 
         public async Task<List<ProductResponseDto>> GetAllAsync()
         {
-            const string sql = @"SELECT Id,Name,Description,Price,StockQuantity,CategoryId
-                          FROM Products
-                          WHERE IsDeleted = 0";
+            const string productSql = @"SELECT Id,Name,Description,Price,StockQuantity,
+                                        CategoryId FROM Products
+                                              WHERE IsDeleted = 0";
+
+            const string imageSql = @"SELECT Id,ImageUrl, IsPrimary,
+                    ProductId FROM ProductImages";
 
             using var connection = _context.CreateConnection();
-            return (await connection.QueryAsync<ProductResponseDto>(sql)).ToList();
+
+            var products = (await connection.QueryAsync<ProductResponseDto>(productSql)).ToList();
+
+            var images = (await connection.QueryAsync<ProductImageResponseDto>(imageSql)).ToList();
+
+            foreach (var product in products)
+            {
+                product.Images = images.Where(i => i.ProductId == product.Id)
+                    .ToList();
+            }
+            return products;
         }
-          
+
         public async Task<ProductResponseDto?> GetByIdAsync(int id)
         {
-            const string sql = @"SELECT Id,Name,Description,Price,StockQuantity,CategoryId
-                          FROM Products
-                          WHERE Id = @Id AND IsDeleted = 0";
+            const string productSql = @"SELECT Id, Name, Description, Price,StockQuantity,
+                                        CategoryId FROM Products
+                                            WHERE Id = @Id
+                                            AND IsDeleted = 0";
+
+            const string imageSql = @"SELECT Id,ImageUrl,IsPrimary,ProductId
+                                    FROM ProductImages
+                                    WHERE ProductId = @Id";
 
             using var connection = _context.CreateConnection();
-            return await connection.QueryFirstOrDefaultAsync<ProductResponseDto>(sql, new { Id = id });
+
+            var product = await connection.QueryFirstOrDefaultAsync<ProductResponseDto>
+                        (productSql,new { Id = id });
+
+            if (product == null)
+            {
+                return null;
+            }
+
+            var images = await connection.QueryAsync<ProductImageResponseDto>
+                            (imageSql,new { Id = id });
+
+            product.Images = images.ToList();
+
+            return product;
         }
 
         public async Task<int> CreateProductAsync(Product product)
