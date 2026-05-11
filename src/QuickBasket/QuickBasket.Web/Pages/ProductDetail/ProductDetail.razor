@@ -1,5 +1,53 @@
-﻿<h3>ProductDetail</h3>
+﻿@page "/app/products/{id:int}"
+
+@inject ProductApiService ProductService
+
+<h3>Product Detail</h3>
+
+@if (product == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div class="product-detail">
+
+        <div class="detail-image">
+            @if (product.Images.Any())
+            {
+                <img src="@product.Images[0].ImageUrl" alt="@product.Name" />
+            }
+        </div>
+
+        <div class="detail-info">
+            <h2>@product.Name</h2>
+
+            <p>@product.Description</p>
+
+            <h3>৳@product.Price.ToString("N0")</h3>
+
+            <p>
+                Stock :
+                @product.StockQuantity
+            </p>
+
+            <button class="btn-add">
+                Add To Cart
+            </button>
+        </div>
+
+    </div>
+}
 
 @code {
 
+    [Parameter]
+    public int Id { get; set; }
+
+    private  ProductResponseDto? product;
+
+    protected override async Task OnInitializedAsync()
+    {
+        product = await ProductService.GetProductByIdAsync(Id);
+    }
 }

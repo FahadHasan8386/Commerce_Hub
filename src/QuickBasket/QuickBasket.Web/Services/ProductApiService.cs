@@ -27,5 +27,20 @@
                 return new List<ProductResponseDto>();
             }
         }
+
+        public async Task<ProductResponseDto?> GetProductByIdAsync(int id)
+        {
+            try
+            {
+                var response = await _httpClient.GetFromJsonAsync<ProductResponseDto>($"api/Products/{id}");
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error fetching product by id: {ex.Message}");
+                return null;
+            }
+        }
     }
 }
