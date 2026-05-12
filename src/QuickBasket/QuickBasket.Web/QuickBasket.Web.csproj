@@ -16,4 +16,10 @@
     <ProjectReference Include="..\QuickBasket.Application\QuickBasket.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\Admin\Dashboard\" />
+    <Folder Include="Pages\Admin\OrderManagement\" />
+    <Folder Include="Pages\Admin\ProductCRUD\" />
+  </ItemGroup>
+
 </Project>

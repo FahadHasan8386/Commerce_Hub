@@ -1,50 +1,24 @@
 ﻿@inherits LayoutComponentBase
 
 <div class="app-wrapper">
-    <header class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
-        <div class="container-fluid">
+    <header>
+        <div class="container-fluid d-flex align-items-center">
 
-            <!-- Brand -->
-            <NavLink href="/" class="navbar-brand fw-bold">
+            <NavLink href="/" class="navbar-brand fw-bold me-4">
                 🧺 QuickBasket
             </NavLink>
 
-            <!-- Toggle button -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#mainNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+            <NavLink href="/app/products" class="nav-link me-auto">
+                Products
+            </NavLink>
 
-            <!-- Menu -->
-            <div class="collapse navbar-collapse" id="mainNav">
+            <form class="d-flex me-3">
+                <input class="form-control" type="search" placeholder="Search..." />
+            </form>
 
-                <!-- Left menu -->
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
-                    <li class="nav-item">
-                        <NavLink href="/app/products" class="nav-link">
-                            Products
-                        </NavLink>
-                    </li>
-
-                </ul>
-
-                <!-- Search -->
-                <form class="d-flex me-3">
-                    <input class="form-control me-2"
-                           type="search"
-                           placeholder="Search products..." />
-                    <button >
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </button>
-                </form>
-
-                <NavLink href="/cart" class="btn btn-outline-dark me-2">
-                    🛒 Cart (0)
-                </NavLink>
-
-
-            </div>
+            <NavLink href="/app/cart" class="btn btn-outline-dark">
+                🛒 (0)
+            </NavLink>
 
         </div>
     </header>
