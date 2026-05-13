@@ -2,7 +2,6 @@
 {
     using QuickBasket.Application.Features.Products.DTOs;
     using QuickBasket.Shared.Helpers;
-    using QuickBasket.Web.Pages.Products;
     using System.Net.Http.Json;
 
     public class ProductApiService
