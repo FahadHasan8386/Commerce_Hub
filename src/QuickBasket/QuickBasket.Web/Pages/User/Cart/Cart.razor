@@ -1,19 +1,93 @@
 ﻿@page "/app/cart"
+@using QuickBasket.Application.Features.Carts.DTOs
+@using QuickBasket.Application.Features.CartItems.DTOs
 
-<div class="cart-page">
-
+<div class="cart-container">
     <!-- PAGE HEADER -->
     <div class="cart-header">
         <div>
             <h1>🛒 Shopping Cart</h1>
             <p>Your selected products ready for checkout</p>
         </div>
-
         <span class="cart-count">
-            3 Items
+            @CartData.Items.Sum(i => i.Quantity) Items
         </span>
     </div>
 
-   
+    @if (CartData == null || !CartData.Items.Any())
+    {
+        <!-- EMPTY STATE -->
+        <div class="empty-cart">
+            <h3>Your cart is empty!</h3>
+            <p>Looks like you haven't added anything yet.</p>
+            <a href="/products" class="shop-btn">Continue Shopping</a>
+        </div>
+    }
+    else
+    {
+        <div class="cart-content">
+            <!-- LEFT SIDE: ITEMS -->
+            <div class="cart-items-list">
+                @foreach (var item in CartData.Items)
+                {
+                    <div class="cart-item">
+                        <div class="product-details">
+                            <h3>Product #@item.ProductId</h3>
+                            <p class="price-each">$@item.UnitPrice each</p>
+                        </div>
 
+                        <div class="quantity-selectors">
+                            <button @onclick="() => DecreaseQty(item)">-</button>
+                            <span>@item.Quantity</span>
+                            <button @onclick="() => IncreaseQty(item)">+</button>
+                        </div>
+
+                        <div class="item-total-section">
+                            <span class="item-total">$@(item.UnitPrice * item.Quantity)</span>
+                            <button class="remove-btn" @onclick="() => RemoveItem(item)">Remove</button>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <!-- RIGHT SIDE: SUMMARY -->
+            <div class="cart-summary">
+                <h2>Order Summary</h2>
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <span>$@CalculateSubtotal()</span>
+                </div>
+                <div class="summary-row">
+                    <span>Shipping</span>
+                    <span class="free-shipping">Free</span>
+                </div>
+                <hr />
+                <div class="summary-row total-row">
+                    <span>Total</span>
+                    <span>$@CalculateSubtotal()</span>
+                </div>
+                <button class="checkout-btn" @onclick="Checkout">Proceed to Checkout 🚀</button>
+            </div>
+        </div>
+    }
 </div>
+
+@code {
+    private CartResponseDto CartData = new CartResponseDto
+    {
+        Id = 1,
+        IsCheckedOut = false,
+        Items = new List<CartItemResponseDto>
+        {
+            new CartItemResponseDto { Id = 101, ProductId = 5, Quantity = 2, UnitPrice = 25.00m, CartId = 1 },
+            new CartItemResponseDto { Id = 102, ProductId = 12, Quantity = 1, UnitPrice = 50.00m, CartId = 1 }
+        }
+    };
+
+    private decimal CalculateSubtotal() => CartData.Items.Sum(item => item.UnitPrice * item.Quantity);
+
+    private void IncreaseQty(CartItemResponseDto item) => item.Quantity++;
+    private void DecreaseQty(CartItemResponseDto item) { if (item.Quantity > 1) item.Quantity--; }
+    private void RemoveItem(CartItemResponseDto item) => CartData.Items.Remove(item);
+    private void Checkout() { /* Checkout logic */ }
+}
