@@ -50,7 +50,6 @@ namespace QuickBasket.Infrastructure.Repositories.Implementations
         public async Task<int> UpdateCartItemAsync(CartItem cartItem)
         {
             const string sql = @"UPDATE CartItems SET
-                                Name = COALESCE(@Name, Name),
                                 Quantity = COALESCE(@Quantity, Quantity),
                                 UnitPrice = COALESCE(@UnitPrice, UnitPrice),
                                 CartId = COALESCE(@CartId, CartId),
