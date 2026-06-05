@@ -18,112 +18,62 @@ namespace QuickBasket.Infrastructure.Repositories.Implementations
 
         public async Task<List<CartResponseDto>> GetAllAsync()
         {
-            const string sql = @"
-                                SELECT
-                                    c.Id,
-                                    c.UserId,
-                                    c.SessionId,
-                                    c.IsCheckedOut,
-
-                                    ci.Id,
-                                    ci.Quantity,
-                                    ci.UnitPrice,
-                                    ci.CartId,
-                                    ci.ProductId
-
-                                FROM Carts c
-
-                                LEFT JOIN CartItems ci
-                                    ON c.Id = ci.CartId
-                                    AND ci.IsDeleted = 0
-
-                                WHERE c.IsDeleted = 0";
-
             using var connection = _context.CreateConnection();
 
-            var cartDictionary = new Dictionary<int, CartResponseDto>();
+            const string cartSql = @"SELECT Id, UserId, SessionId, IsCheckedOut
+                                    FROM Carts
+                                    WHERE IsDeleted = 0";
 
-            await connection.QueryAsync<
-                CartResponseDto,
-                CartItemResponseDto,
-                CartResponseDto>(
-                sql,
-                (cart, item) =>
-                {
-                    if (!cartDictionary.TryGetValue(cart.Id, out var existingCart))
-                    {
-                        existingCart = cart;
-                        existingCart.Items = new List<CartItemResponseDto>();
+            const string itemSql = @"SELECT Id, Quantity, UnitPrice, CartId, ProductId
+                                    FROM CartItems
+                                    WHERE IsDeleted = 0";
 
-                        cartDictionary.Add(cart.Id, existingCart);
-                    }
+            var carts = (await connection.QueryAsync<CartResponseDto>(cartSql))
+                .ToList();
 
-                    if (item != null && item.Id > 0)
-                    {
-                        existingCart.Items.Add(item);
-                    }
+            var items = (await connection.QueryAsync<CartItemResponseDto>(itemSql))
+                .ToList();
 
-                    return existingCart;
-                },
-                splitOn: "Id"
-            );
+            foreach (var cart in carts)
+            {
+                cart.Items = items
+                    .Where(x => x.CartId == cart.Id)
+                    .ToList();
+            }
 
-            return cartDictionary.Values.ToList();
+            return carts;
         }
 
         public async Task<CartResponseDto?> GetByIdAsync(int id)
         {
-            const string sql = @"
-                                SELECT
-                                    c.Id,
-                                    c.UserId,
-                                    c.SessionId,
-                                    c.IsCheckedOut,
-
-                                    ci.Id,
-                                    ci.Quantity,
-                                    ci.UnitPrice,
-                                    ci.CartId,
-                                    ci.ProductId
-
-                                FROM Carts c
-                                LEFT JOIN CartItems ci
-                                    ON c.Id = ci.CartId
-                                    AND ci.IsDeleted = 0
-
-                                WHERE c.Id = @Id
-                                AND c.IsDeleted = 0";
-
             using var connection = _context.CreateConnection();
 
-            var cartDictionary = new Dictionary<int, CartResponseDto>();
+            const string cartSql = @"SELECT Id, UserId, SessionId, IsCheckedOut
+                                    FROM Carts
+                                    WHERE Id = @Id
+                                    AND IsDeleted = 0";
 
-            var result = await connection.QueryAsync<
-                CartResponseDto,
-                CartItemResponseDto,
-                CartResponseDto>(
-                sql,
-                (cart, item) =>
-                {
-                    if (!cartDictionary.TryGetValue(cart.Id, out var existingCart))
-                    {
-                        existingCart = cart;
-                        existingCart.Items = new List<CartItemResponseDto>();
-                        cartDictionary.Add(cart.Id, existingCart);
-                    }
+            const string itemSql = @"SELECT Id, Quantity, UnitPrice, CartId, ProductId
+                                    FROM CartItems
+                                    WHERE CartId = @Id
+                                    AND IsDeleted = 0";
 
-                    if (item != null && item.Id > 0)
-                    {
-                        existingCart.Items.Add(item);
-                    }
+            var cart =
+                await connection.QueryFirstOrDefaultAsync<CartResponseDto>(
+                    cartSql,
+                    new { Id = id });
 
-                    return existingCart;
-                },
-                new { Id = id },
-                splitOn: "Id"
-            );
+            if (cart == null)
+                return null;
 
-            return cartDictionary.Values.FirstOrDefault();
+            var items =
+                await connection.QueryAsync<CartItemResponseDto>(
+                    itemSql,
+                    new { Id = id });
+
+            cart.Items = items.ToList();
+
+            return cart;
         }
 
         public async Task<int> CreateCartAsync(Cart cart)
