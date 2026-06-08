@@ -1,101 +1,97 @@
-﻿@page "/app/cart"
+﻿@page "/cart"
 
-@using QuickBasket.Application.Features.Carts.DTOs
 @using QuickBasket.Application.Features.CartItems.DTOs
+@inject CartApiService CartService
 
-@inject CartApiService CartApiService
+<PageTitle>Shopping Cart</PageTitle>
 
-<div class="cart-container">
+<div class="container">
 
-    <div class="cart-header">
-        <div>
-            <h1>🛒 Shopping Cart</h1>
-            <p>Your selected products ready for checkout</p>
-        </div>
-
-        <span class="cart-count">
-            @(CurrentCart?.Items.Sum(x => x.Quantity) ?? 0) Items
-        </span>
-    </div>
+    <h1>🛒 My Cart</h1>
 
     @if (isLoading)
     {
-        <h4>Loading cart...</h4>
+        <p>Loading cart...</p>
     }
-    else if (CurrentCart == null || !CurrentCart.Items.Any())
+    else if (!cartItems.Any())
     {
         <div class="empty-cart">
-            <h3>Your cart is empty!</h3>
-            <p>No products found.</p>
+            <h3>Your cart is empty</h3>
         </div>
     }
     else
     {
-        <div class="cart-content">
+        @foreach (var item in cartItems)
+        {
+            <div class="cart-item">
 
-            <div class="cart-items-list">
+                <img src="@(string.IsNullOrWhiteSpace(item.ProductImageUrl)
+                                         ? "https://via.placeholder.com/100"
+                                         : item.ProductImageUrl)"
+                     alt="@item.ProductName" />
 
-                @foreach (var item in CurrentCart.Items)
-                {
-                    <div class="cart-item">
+                <div class="details">
+                    <h4>@item.ProductName</h4>
 
-                        <div class="product-details">
-                            <h3>Product #@item.ProductId</h3>
-                            <p>$@item.UnitPrice each</p>
-                        </div>
+                    <p class="category">
+                        @item.CategoryName
+                    </p>
 
-                        <div class="quantity-selectors">
-                            <button @onclick="() => DecreaseQty(item)">-</button>
-
-                            <span>@item.Quantity</span>
-
-                            <button @onclick="() => IncreaseQty(item)">+</button>
-                        </div>
-
-                        <div class="item-total-section">
-
-                            <span class="item-total">
-                                $@(item.UnitPrice * item.Quantity)
-                            </span>
-
-                            <button class="remove-btn"
-                                    @onclick="() => RemoveItem(item)">
-                                Remove
-                            </button>
-
-                        </div>
-
-                    </div>
-                }
-
-            </div>
-
-            <div class="cart-summary">
-
-                <h2>Order Summary</h2>
-
-                <div class="summary-row">
-                    <span>Subtotal</span>
-                    <span>$@CalculateSubtotal()</span>
+                    <p>
+                        Unit Price: ৳@item.UnitPrice
+                    </p>
                 </div>
 
-                <div class="summary-row">
-                    <span>Shipping</span>
-                    <span>Free</span>
+                <div class="qty-section">
+
+                    <button @onclick="() => DecreaseQty(item)">
+                        -
+                    </button>
+
+                    <span>@item.Quantity</span>
+
+                    <button @onclick="() => IncreaseQty(item)">
+                        +
+                    </button>
+
                 </div>
 
-                <hr />
-
-                <div class="summary-row total-row">
-                    <span>Total</span>
-                    <span>$@CalculateSubtotal()</span>
+                <div class="total-price">
+                    ৳@item.TotalPrice
                 </div>
 
-                <button class="checkout-btn">
-                    Proceed to Checkout 🚀
+                <button class="remove-btn"
+                        @onclick="() => RemoveItem(item.Id)">
+                    🗑
                 </button>
 
             </div>
+        }
+
+        <hr />
+
+        <div class="summary">
+
+            <h3>Order Summary</h3>
+
+            <p>
+                Subtotal:
+                <strong>৳@SubTotal</strong>
+            </p>
+
+            <p>
+                Delivery:
+                <strong>৳@DeliveryCharge</strong>
+            </p>
+
+            <h2>
+                Total:
+                ৳@(SubTotal + DeliveryCharge)
+            </h2>
+
+            <button class="checkout-btn">
+                Proceed To Checkout
+            </button>
 
         </div>
     }
@@ -104,49 +100,149 @@
 
 @code {
 
-    private List<CartResponseDto> carts = new();
-
-    private CartResponseDto? CurrentCart;
+    private List<CartItemResponseDto> cartItems = new();
 
     private bool isLoading = true;
 
+    // Demo Cart Id
+    private int CartId = 1;
+
     protected override async Task OnInitializedAsync()
     {
-        try
-        {
-            carts = await CartApiService.GetAllCartsAsync();
-
-            CurrentCart = carts
-                .FirstOrDefault(x => !x.IsCheckedOut);
-        }
-        finally
-        {
-            isLoading = false;
-        }
+        await LoadCart();
     }
 
-    private decimal CalculateSubtotal()
+    private async Task LoadCart()
     {
-        if (CurrentCart == null)
-            return 0;
+        isLoading = true;
 
-        return CurrentCart.Items.Sum(x =>
-            x.UnitPrice * x.Quantity);
+        cartItems = await CartService.GetCartItemsByCartIdAsync(CartId);
+
+        isLoading = false;
     }
 
-    private void IncreaseQty(CartItemResponseDto item)
+    private async Task IncreaseQty(CartItemResponseDto item)
     {
         item.Quantity++;
+
+        // API call add later
+        // await CartService.UpdateCartItemAsync(...);
+
+        StateHasChanged();
     }
 
-    private void DecreaseQty(CartItemResponseDto item)
+    private async Task DecreaseQty(CartItemResponseDto item)
     {
-        if (item.Quantity > 1)
-            item.Quantity--;
+        if (item.Quantity <= 1)
+            return;
+
+        item.Quantity--;
+
+        // API call add later
+        // await CartService.UpdateCartItemAsync(...);
+
+        StateHasChanged();
     }
 
-    private void RemoveItem(CartItemResponseDto item)
+    private async Task RemoveItem(int id)
     {
-        CurrentCart?.Items.Remove(item);
+        // await CartService.DeleteCartItemAsync(id);
+
+        cartItems.RemoveAll(x => x.Id == id);
+
+        StateHasChanged();
     }
+
+    private decimal SubTotal =>
+        cartItems.Sum(x => x.TotalPrice);
+
+    private decimal DeliveryCharge =>
+        cartItems.Any() ? 80 : 0;
 }
+
+<style>
+    .container {
+        max-width: 1100px;
+        margin: auto;
+        padding: 20px;
+    }
+
+    .cart-item {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        background: white;
+        padding: 15px;
+        margin-bottom: 15px;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0,0,0,.08);
+    }
+
+        .cart-item img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+    .details {
+        flex: 1;
+    }
+
+        .details h4 {
+            margin: 0 0 5px;
+        }
+
+    .category {
+        color: gray;
+        font-size: 14px;
+    }
+
+    .qty-section {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+        .qty-section button {
+            width: 35px;
+            height: 35px;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+
+    .total-price {
+        min-width: 120px;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .remove-btn {
+        border: none;
+        background: crimson;
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+    .summary {
+        margin-top: 25px;
+        padding: 20px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0,0,0,.08);
+    }
+
+    .checkout-btn {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        background: #0d6efd;
+        color: white;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+</style>

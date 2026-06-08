@@ -17,22 +17,76 @@ namespace QuickBasket.Infrastructure.Repositories.Implementations
 
         public async Task<List<CartItemResponseDto>> GetAllAsync()
         {
-            const string sql = @"SELECT Id,Quantity,UnitPrice,CartId,ProductId
-                          FROM CartItems
-                          WHERE IsDeleted = 0";
+            const string sql = @"
+                                SELECT
+                                    ci.Id,
+                                    ci.CartId,
+                                    ci.ProductId,
+                                    ci.Quantity,
+                                    ci.UnitPrice,
+
+                                    p.Name AS ProductName,
+
+                                    c.Name AS CategoryName,
+
+                                    pi.ImageUrl AS ProductImageUrl
+
+                                FROM CartItems ci
+
+                                INNER JOIN Products p
+                                    ON ci.ProductId = p.Id
+
+                                LEFT JOIN Categories c
+                                    ON p.CategoryId = c.Id
+
+                                LEFT JOIN ProductImages pi
+                                    ON p.Id = pi.ProductId
+                                    AND pi.IsPrimary = 1
+
+                                WHERE ci.IsDeleted = 0";
 
             using var connection = _context.CreateConnection();
-            return (await connection.QueryAsync<CartItemResponseDto>(sql)).ToList();
+
+            return (await connection.QueryAsync<CartItemResponseDto>(sql))
+                .ToList();
         }
 
         public async Task<CartItemResponseDto?> GetByIdAsync(int id)
         {
-            const string sql = @"SELECT Id,Quantity,UnitPrice,CartId,ProductId
-                          FROM CartItems
-                          WHERE Id = @Id AND IsDeleted = 0";
+            const string sql = @"
+                                SELECT
+                                    ci.Id,
+                                    ci.CartId,
+                                    ci.ProductId,
+                                    ci.Quantity,
+                                    ci.UnitPrice,
+
+                                    p.Name AS ProductName,
+
+                                    c.Name AS CategoryName,
+
+                                    pi.ImageUrl AS ProductImageUrl
+
+                                FROM CartItems ci
+
+                                INNER JOIN Products p
+                                    ON ci.ProductId = p.Id
+
+                                LEFT JOIN Categories c
+                                    ON p.CategoryId = c.Id
+
+                                LEFT JOIN ProductImages pi
+                                    ON p.Id = pi.ProductId
+                                    AND pi.IsPrimary = 1
+
+                                WHERE ci.Id = @Id
+                                  AND ci.IsDeleted = 0";
 
             using var connection = _context.CreateConnection();
-            return await connection.QueryFirstOrDefaultAsync<CartItemResponseDto>(sql, new { Id = id });
+
+            return await connection.QueryFirstOrDefaultAsync<CartItemResponseDto>(
+                sql,
+                new { Id = id });
         }
 
         public async Task<int> CreateCartItemAsync(CartItem cartItem)
